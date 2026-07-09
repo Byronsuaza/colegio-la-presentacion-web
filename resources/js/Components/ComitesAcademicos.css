@@ -1,0 +1,256 @@
+.comites-academicos {
+  padding: 2rem 0;
+}
+
+.comites-academicos__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.comites-academicos__card {
+  background: var(--white);
+  border: 1px solid rgba(27, 94, 138, 0.1);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: slideInUp 0.5s ease;
+  box-shadow: 0 2px 12px rgba(27, 94, 138, 0.05);
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.comites-academicos__card:hover {
+  box-shadow: 0 8px 24px rgba(27, 94, 138, 0.1);
+  border-color: rgba(245, 200, 66, 0.2);
+}
+
+.comites-academicos__card.expanded {
+  box-shadow: 0 12px 32px rgba(27, 94, 138, 0.15);
+  border-color: var(--gold);
+}
+
+.comites-academicos__header {
+  width: 100%;
+  padding: 1.5rem;
+  border: none;
+  background: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: all 0.3s ease;
+  text-align: left;
+  font-family: var(--font-sans);
+  border-bottom: 1px solid rgba(27, 94, 138, 0.05);
+}
+
+.comites-academicos__header:hover {
+  background: rgba(245, 200, 66, 0.03);
+  border-bottom-color: rgba(245, 200, 66, 0.15);
+}
+
+.comites-academicos__card.expanded .comites-academicos__header {
+  background: linear-gradient(135deg, rgba(27, 94, 138, 0.05) 0%, rgba(245, 200, 66, 0.03) 100%);
+  border-bottom-color: var(--gold);
+}
+
+.comites-academicos__header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+
+.comites-academicos__title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.3;
+  flex: 1;
+}
+
+.comites-academicos__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(245, 200, 66, 0.1);
+  border-radius: 50%;
+  color: var(--gold);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.comites-academicos__card.expanded .comites-academicos__icon {
+  background: var(--gold);
+  color: var(--navy);
+  transform: rotate(180deg);
+}
+
+.comites-academicos__content {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(27, 94, 138, 0.08);
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.comites-academicos__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(245, 200, 66, 0.05);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--radius-md);
+}
+
+.info-label {
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.info-value {
+  color: var(--gray-700);
+  font-size: 1rem;
+}
+
+.comites-academicos__members {
+  margin-bottom: 1.5rem;
+}
+
+.comites-academicos__members-content {
+  color: var(--gray-600);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-top: 0.5rem;
+}
+
+.comites-academicos__members-content ul,
+.comites-academicos__members-content ol {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.comites-academicos__members-content li {
+  margin-bottom: 0.4rem;
+}
+
+.comites-academicos__enlaces {
+  border-top: 1px solid rgba(27, 94, 138, 0.08);
+  padding-top: 1.5rem;
+}
+
+.enlaces-title {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--gold);
+}
+
+.enlaces-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.enlace-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(27, 94, 138, 0.04);
+  border: 1px solid rgba(27, 94, 138, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--navy);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.enlace-item:hover {
+  background: var(--gold);
+  color: var(--navy);
+  border-color: var(--gold);
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(245, 200, 66, 0.2);
+}
+
+.enlace-item svg {
+  flex-shrink: 0;
+  color: var(--gold);
+}
+
+.enlace-item:hover svg {
+  color: var(--navy);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .comites-academicos__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .comites-academicos__title {
+    font-size: 1.1rem;
+  }
+
+  .comites-academicos__header {
+    padding: 1.25rem;
+  }
+
+  .comites-academicos__content {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .comites-academicos__header {
+    padding: 1rem;
+  }
+
+  .comites-academicos__content {
+    padding: 1rem;
+  }
+
+  .comites-academicos__title {
+    font-size: 1rem;
+  }
+
+  .comites-academicos__icon {
+    width: 36px;
+    height: 36px;
+  }
+}

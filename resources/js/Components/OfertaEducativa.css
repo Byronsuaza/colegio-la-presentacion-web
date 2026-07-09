@@ -1,0 +1,174 @@
+/* ============================================
+   OFERTA EDUCATIVA SECTION
+   ============================================ */
+.oferta__header {
+  max-width: 560px;
+  margin-bottom: 4rem;
+}
+
+.oferta__title-em {
+  font-style: italic;
+  color: var(--navy-light);
+}
+
+/* Panels Grid */
+.oferta__panels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* Single Panel */
+.oferta__panel {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.oferta__panel:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-strong);
+}
+
+/* Image */
+.oferta__panel-img-wrap {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+}
+
+.oferta__panel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.oferta__panel:hover .oferta__panel-img {
+  transform: scale(1.08);
+}
+
+.oferta__panel-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 40%,
+    rgba(27, 94, 138, 0.7) 100%
+  );
+}
+
+.oferta__panel-nivel-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  padding: 0.4rem 0.9rem;
+  border-radius: 2px;
+}
+
+/* Body */
+.oferta__panel-body {
+  padding: 1.8rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.oferta__panel-grados {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.oferta__panel-title {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 0.9rem;
+  line-height: 1.25;
+}
+
+.oferta__panel-desc {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--gray-600);
+  line-height: 1.85;
+  margin-bottom: 1.4rem;
+  flex: 1;
+}
+
+/* Features */
+.oferta__panel-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.8rem;
+}
+
+.oferta__panel-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.oferta__panel-feature svg {
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+/* Link */
+.oferta__panel-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--navy);
+  border-bottom: 1.5px solid var(--gold);
+  padding-bottom: 2px;
+  transition: var(--transition);
+  align-self: flex-start;
+}
+
+.oferta__panel-link:hover {
+  color: var(--gold);
+  gap: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .oferta__panels {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+  }
+}
+
+@media (max-width: 540px) {
+  .oferta__panel-img-wrap {
+    height: 220px;
+  }
+}

@@ -1,0 +1,218 @@
+/* ============================================
+   MARIE POUSSEPIN SECTION
+   ============================================ */
+.marie {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #143F5E 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.marie::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(245,200,66,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.marie::after {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(245,200,66,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Layout */
+.marie__layout {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+/* Image Column */
+.marie__image-col {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.marie__image-frame {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+}
+
+.marie__image {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: var(--radius-sm);
+  filter: sepia(15%) contrast(1.05);
+}
+
+.marie__image-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(27,94,138,0.95));
+  padding: 2.5rem 1.5rem 1.2rem;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.marie__image-caption-text {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--white);
+}
+
+.marie__image-caption-year {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+/* Decorative corner lines */
+.marie__frame-deco {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: 0.5;
+}
+
+.marie__frame-deco--tl {
+  top: -12px;
+  left: -12px;
+  border-width: 1.5px 0 0 1.5px;
+}
+
+.marie__frame-deco--br {
+  bottom: -12px;
+  right: -12px;
+  border-width: 0 1.5px 1.5px 0;
+}
+
+/* Text Column */
+.marie__title-em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.marie__body {
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.marie__body p {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.9;
+}
+
+.marie__body strong {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+.marie__body em {
+  font-style: italic;
+  color: rgba(255,255,255,0.9);
+}
+
+/* Facts Row */
+.marie__facts {
+  display: flex;
+  gap: 2.5rem;
+  margin-bottom: 2.5rem;
+  padding: 1.8rem 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  flex-wrap: wrap;
+}
+
+.marie__fact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.marie__fact-num {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1;
+}
+
+.marie__fact-label {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  max-width: 120px;
+  line-height: 1.4;
+}
+
+/* Button */
+.marie__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  padding: 0.9rem 2rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.marie__btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(245, 200, 66, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .marie__layout {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+  .marie__image-col {
+    order: -1;
+  }
+  .marie__image {
+    height: 380px;
+  }
+  .marie__image-frame {
+    max-width: 320px;
+  }
+}

@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class AjusteGeneral extends Model
+{
+    use HasFactory;
+
+    protected $table = 'ajustes_generales';
+
+    protected $fillable = [
+        'telefono',
+        'direccion',
+        'email',
+        'facebook',
+        'instagram',
+        'whatsapp',
+        'admisiones_anio',
+        'admisiones_titulo',
+        'admisiones_descripcion',
+        'admisiones_boton_texto',
+        'admisiones_boton_url',
+        'admisiones_llamada_texto',
+        'evangelio_embed_url',
+        'pago_en_linea_url',
+        'syscolegios_url',
+        'pruebas_diagnosticas_password',
+    ];
+
+    /**
+     * Obtiene o crea el registro único de ajustes.
+     */
+    public static function instancia(): static
+    {
+        return static::firstOrCreate(['id' => 1]);
+    }
+}
