@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Notifications\ResetPasswordNotification;
+use Filament\Auth\Notifications\ResetPassword as FilamentResetPassword;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Reemplaza la notificación de reset de Filament por la versión en español
+        $this->app->bind(FilamentResetPassword::class, ResetPasswordNotification::class);
     }
 
     /**

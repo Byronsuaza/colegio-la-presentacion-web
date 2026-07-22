@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->passwordReset()
             ->brandName('Panel Administrador - Colegio La Presentación')
             ->colors([
                 'primary' => '#C9A96E', // Gold
