@@ -77,7 +77,7 @@ export default function Hero({ slides = [], ajustes }) {
       <div className="hero__content">
         <div className="hero__badge">
           <span className="hero__badge-line" />
-          <span className="hero__badge-text">Desde 1956 {'\u00b7'} Formando el futuro</span>
+          <span className="hero__badge-text">Desde 1882 {'\u00b7'} Formando el futuro</span>
           <span className="hero__badge-line" />
         </div>
 
