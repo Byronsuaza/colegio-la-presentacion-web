@@ -4,7 +4,17 @@ export const storageUrl = (path) => {
   const trimmed = String(path).trim().replace(/\\/g, '/');
   if (!trimmed) return null;
 
-  if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('data:')) {
+  if (trimmed.startsWith('data:')) {
+    return trimmed;
+  }
+
+  const localDevUrlPattern = /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?\/(.*)$/;
+  const localMatch = trimmed.match(localDevUrlPattern);
+  if (localMatch) {
+    return `/${localMatch[3]}`;
+  }
+
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
     return trimmed;
   }
 
