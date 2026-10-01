@@ -3,8 +3,39 @@ import './ComunidadEventos.css';
 
 import { parseDate } from '../utils/date';
 
+function getCanvaUrls(rawUrl) {
+  if (!rawUrl) return { embedUrl: '', directUrl: '' };
+
+  let url = rawUrl.trim();
+
+  // Si pegaron un iframe completo: <iframe ... src="..." ...>
+  const srcMatch = url.match(/src=["']([^"']+)["']/i);
+  if (srcMatch) {
+    url = srcMatch[1];
+  }
+
+  if (url.includes('canva.com')) {
+    // Si viene con /edit, cambiar a /view
+    url = url.replace(/\/edit(\?.*)?$/i, '/view');
+
+    // Enlace directo limpio
+    const directUrl = url.split('?')[0];
+
+    // Asegurar el parámetro ?embed para el iframe
+    let embedUrl = url;
+    if (!embedUrl.includes('embed')) {
+      const sep = embedUrl.includes('?') ? '&' : '?';
+      embedUrl = `${embedUrl}${sep}embed`;
+    }
+
+    return { embedUrl, directUrl };
+  }
+
+  return { embedUrl: url, directUrl: url };
+}
+
 export default function ComunidadEventos({ eventos = [], ajustes = {} }) {
-  const embedUrl = ajustes?.evangelio_embed_url;
+  const { embedUrl, directUrl } = getCanvaUrls(ajustes?.evangelio_embed_url);
 
   return (
     <section className="comunidad-eventos section" id="comunidad-eventos">
@@ -24,16 +55,36 @@ export default function ComunidadEventos({ eventos = [], ajustes = {} }) {
 
             <div className="comunidad-eventos__pastoral-card">
               {embedUrl ? (
-                <div className="comunidad-eventos__pastoral-iframe-container">
-                  <iframe
-                    loading="lazy"
-                    title="Evangelio de la Semana - Canva Presentation"
-                    className="comunidad-eventos__pastoral-iframe"
-                    src={embedUrl.includes('?') ? `${embedUrl}&utm_content=embed` : `${embedUrl}?utm_content=embed`}
-                    allowFullScreen
-                    allow="fullscreen"
-                  />
-                </div>
+                <>
+                  <div className="comunidad-eventos__pastoral-iframe-container">
+                    <iframe
+                      loading="lazy"
+                      title="Evangelio de la Semana - Canva Presentation"
+                      className="comunidad-eventos__pastoral-iframe"
+                      src={embedUrl}
+                      allowFullScreen
+                      allow="fullscreen"
+                    />
+                  </div>
+                  {directUrl && (
+                    <div className="comunidad-eventos__pastoral-actions">
+                      <a
+                        href={directUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="comunidad-eventos__canva-btn"
+                        title="Abrir presentación en Canva"
+                      >
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                          <polyline points="15 3 21 3 21 9"></polyline>
+                          <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                        Ver presentación completa
+                      </a>
+                    </div>
+                  )}
+                </>
               ) : (
                 <div className="comunidad-eventos__pastoral-empty">
                   <div className="comunidad-eventos__empty-icon">

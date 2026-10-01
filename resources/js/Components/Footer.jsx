@@ -1,4 +1,5 @@
 import './Footer.css';
+import ColegiosProvincia from './ColegiosProvincia';
 
 const socialLinks = [
   {
@@ -39,29 +40,29 @@ const getAdmissionsYear = (ajustes) => ajustes?.admisiones_anio || '2027';
 
 const getFooterLinks = (ajustes) => ({
   institucional: [
-    { label: 'Quiénes Somos', href: '#nosotros' },
-    { label: 'Misión y Visión', href: '#mision' },
-    { label: 'Marie Poussepin', href: '#marie-poussepin' },
-    { label: 'Gobierno Escolar', href: '#gobierno' },
-    { label: 'Proyecto Educativo', href: '#pei' },
+    { label: 'Quiénes Somos', href: '/nuestra-institucion/recorrido-historico' },
+    { label: 'Misión y Visión', href: '/nuestra-institucion/mision' },
+    { label: 'Marie Poussepin', href: '/nuestra-institucion/marie-poussepin' },
+    { label: 'Gobierno Escolar', href: '/nuestra-institucion/organizacion' },
+    { label: 'Proyecto Educativo (PEI)', href: '/nuestra-institucion/pei-general' },
   ],
   educativa: [
     { label: 'Preescolar', href: '/nuestra-institucion/seccion-preescolar' },
     { label: 'Básica Primaria', href: '/nuestra-institucion/seccion-primaria' },
     { label: 'Bachillerato', href: '/nuestra-institucion/seccion-bachillerato' },
-    { label: 'Bilingüismo', href: '#bilingüismo' },
-    { label: 'Actividades Extracurriculares', href: '#extra' },
+    { label: 'Plan de Estudios', href: '/gestion-academica/plan-de-estudios' },
+    { label: 'Calendario Académico', href: '/gestion-academica/calendario-academico' },
   ],
   servicios: [
-    { label: `Admisiones ${getAdmissionsYear(ajustes)}`, href: '#admisiones' },
-    { label: 'Biblioteca Virtual', href: '#biblioteca' },
-    { label: 'Plataforma Académica', href: '#plataforma' },
-    { label: 'Bienestar Estudiantil', href: '#bienestar' },
-    { label: 'Egresados', href: '#egresados' },
+    { label: `Admisiones ${getAdmissionsYear(ajustes)}`, href: '/admisiones/inscripcion-en-linea' },
+    { label: 'Plataforma SYSCOLEGIOS', href: 'https://www.syscolegios.org/', external: true },
+    { label: 'PQRS', href: '/comunicaciones-contacto/pqrs' },
+    { label: 'Contáctenos', href: '/comunicaciones-contacto/contactenos' },
+    { label: 'Comunidad de Egresados', href: '/servicios/egresados-exalumnos' },
   ],
 });
 
-export default function Footer({ ajustes }) {
+export default function Footer({ ajustes, mostrarProvincia = true }) {
   const year = new Date().getFullYear();
   const footerLinks = getFooterLinks(ajustes);
   
@@ -75,6 +76,8 @@ export default function Footer({ ajustes }) {
 
   return (
     <footer className="footer" id="footer">
+      {mostrarProvincia && <ColegiosProvincia />}
+
       {/* Top Bar */}
       <div className="footer__top">
         <div className="container footer__top-inner">
@@ -87,9 +90,24 @@ export default function Footer({ ajustes }) {
           </div>
 
           <p className="footer__tagline">
-            Formando personas íntegras desde 1956,<br />
+            Formando personas íntegras desde 1882,<br />
             inspiradas en el carisma de Marie Poussepin.
           </p>
+
+          <div className="footer__certifications">
+            <img
+              src="/images/certificaciones/icontec-iqnet.png"
+              alt="Certificación Icontec ISO 21001 e IQNet"
+              className="footer__cert-img"
+              title="Certificación Icontec ISO 21001 e IQNet - SGOE-CER950417"
+            />
+            <img
+              src="/images/certificaciones/icontec-iso9001.png"
+              alt="Certificación Icontec ISO 9001"
+              className="footer__cert-img"
+              title="Certificación Icontec ISO 9001"
+            />
+          </div>
 
           <div className="footer__social">
             {dynamicSocialLinks.map((s) => (
@@ -155,7 +173,11 @@ export default function Footer({ ajustes }) {
             <ul className="footer__links-list">
               {footerLinks.institucional.map((l) => (
                 <li key={l.label}>
-                  <a href={l.href} className="footer__link">{l.label}</a>
+                  {l.href && !l.href.startsWith('#') ? (
+                    <a href={l.href} className="footer__link" target={l.external ? "_blank" : undefined} rel={l.external ? "noopener noreferrer" : undefined}>{l.label}</a>
+                  ) : (
+                    <span className="footer__link footer__link--static">{l.label}</span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -166,7 +188,11 @@ export default function Footer({ ajustes }) {
             <ul className="footer__links-list">
               {footerLinks.educativa.map((l) => (
                 <li key={l.label}>
-                  <a href={l.href} className="footer__link">{l.label}</a>
+                  {l.href && !l.href.startsWith('#') ? (
+                    <a href={l.href} className="footer__link" target={l.external ? "_blank" : undefined} rel={l.external ? "noopener noreferrer" : undefined}>{l.label}</a>
+                  ) : (
+                    <span className="footer__link footer__link--static">{l.label}</span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -177,7 +203,11 @@ export default function Footer({ ajustes }) {
             <ul className="footer__links-list">
               {footerLinks.servicios.map((l) => (
                 <li key={l.label}>
-                  <a href={l.href} className="footer__link">{l.label}</a>
+                  {l.href && !l.href.startsWith('#') ? (
+                    <a href={l.href} className="footer__link" target={l.external ? "_blank" : undefined} rel={l.external ? "noopener noreferrer" : undefined}>{l.label}</a>
+                  ) : (
+                    <span className="footer__link footer__link--static">{l.label}</span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -192,11 +222,11 @@ export default function Footer({ ajustes }) {
             © {year} Colegio de La Presentación de Neiva. Todos los derechos reservados.
           </p>
           <div className="footer__legal">
-            <a href="#privacidad" className="footer__legal-link">Política de Privacidad</a>
+            <a href="/calidad-y-pastoral/politica-de-privacidad" className="footer__legal-link">Política de Privacidad</a>
             <span className="footer__legal-sep">·</span>
-            <a href="#terminos" className="footer__legal-link">Términos de Uso</a>
+            <a href="/gestion-comunitaria/manual-de-convivencia" className="footer__legal-link">Manual de Convivencia</a>
             <span className="footer__legal-sep">·</span>
-            <a href="#snies" className="footer__legal-link">Código DANE</a>
+            <span className="footer__legal-info">Código DANE: 341001000105</span>
           </div>
         </div>
       </div>

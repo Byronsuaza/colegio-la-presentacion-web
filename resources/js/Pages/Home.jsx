@@ -9,12 +9,14 @@ import OfertaEducativa from '../Components/OfertaEducativa';
 import Noticias from '../Components/Noticias';
 import PagoEnLinea from '../Components/PagoEnLinea';
 import Admisiones from '../Components/Admisiones';
+import AdmissionPopup from '../Components/AdmissionPopup';
 import Footer from '../Components/Footer';
 
 export default function Home({ heroSlides, noticias, ajustes, eventos }) {
     return (
         <>
             <Head title="Inicio" />
+            <AdmissionPopup ajustes={ajustes} />
             <Navbar ajustes={ajustes} />
             <main>
                 <Hero slides={heroSlides} ajustes={ajustes} />
@@ -30,4 +32,3 @@ export default function Home({ heroSlides, noticias, ajustes, eventos }) {
         </>
     );
 }
-

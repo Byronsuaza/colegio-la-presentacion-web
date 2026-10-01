@@ -210,9 +210,11 @@
   .noticias__bento {
     grid-template-columns: 1fr 1fr;
   }
+
   .noticias__card {
     min-height: 380px;
   }
+
   .noticias__card-media {
     height: 180px;
   }
@@ -222,6 +224,7 @@
   .noticias__bento {
     grid-template-columns: 1fr;
   }
+
   .noticias__card {
     min-height: 340px;
   }

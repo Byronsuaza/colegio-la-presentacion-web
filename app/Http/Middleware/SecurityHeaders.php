@@ -16,8 +16,16 @@ class SecurityHeaders
         /** @var Response $response */
         $response = $next($request);
 
-        // Content Security Policy - basic self restrictions
-        $csp = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self';";
+        // Content Security Policy - allow fonts, cloudflare turnstile, and embeds
+        $csp = "default-src 'self'; " .
+               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com; " .
+               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " .
+               "font-src 'self' https://fonts.gstatic.com data:; " .
+               "img-src 'self' data: https: blob:; " .
+               "frame-src 'self' https://challenges.cloudflare.com https://www.google.com https://www.youtube.com https://*.canva.com https://canva.com https://*.canva.cn; " .
+               "connect-src 'self' https://challenges.cloudflare.com; " .
+               "object-src 'none'; " .
+               "base-uri 'self';";
         $response->headers->set('Content-Security-Policy', $csp);
 
         // HTTP Strict Transport Security
@@ -26,17 +34,15 @@ class SecurityHeaders
         // MIME type sniffing protection
         $response->headers->set('X-Content-Type-Options', 'nosniff');
 
-        // Clickjacking protection
-        $response->headers->set('X-Frame-Options', 'DENY');
+        // Clickjacking protection (SAMEORIGIN allows admin panel modals/previews)
+        $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
 
         // Referrer policy
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
-        // XSS protection (deprecated but still useful for older browsers)
+        // XSS protection (for older browsers)
         $response->headers->set('X-XSS-Protection', '1; mode=block');
 
-        error_log('security middleware called');
-        $response->headers->set('X-Debug-Middleware', 'yes');
         return $response;
     }
 }

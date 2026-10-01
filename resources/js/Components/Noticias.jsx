@@ -5,64 +5,36 @@ import { storageUrl } from '../utils/url';
 import { formatDate } from '../utils/date';
 import { makeExcerpt } from '../utils/text';
 
-const defaultNoticias = [
-  {
-    id: 'noticia-1',
-    categoria: 'Logros',
-    fecha: '28 Abr 2026',
-    titulo: 'Estudiantes destacan en Olimpiadas de Matemáticas del Huila',
-    descripcion: 'Tres estudiantes de grado 11 obtuvieron primeros puestos en la fase departamental, clasificando a la etapa nacional.',
-    bgColor: 'var(--navy)',
-  },
-  {
-    id: 'noticia-2',
-    categoria: 'Cultura',
-    fecha: '20 Abr 2026',
-    titulo: 'Festival de Arte y Talentos 2026',
-    descripcion: 'Una noche de expresión artística que reunió a más de 500 familias de la comunidad educativa.',
-    bgColor: 'var(--navy-light)',
-  },
-  {
-    id: 'noticia-3',
-    categoria: 'Académico',
-    fecha: '15 Abr 2026',
-    titulo: 'Modelo de Naciones Unidas - COLMUN 2026',
-    descripcion: 'Nuestros delegados representaron a Colombia con excelencia en el debate internacional.',
-    bgColor: 'var(--navy-mid)',
-  },
-];
-
 const bgColors = ['var(--navy)', 'var(--navy-light)', 'var(--navy-mid)', 'var(--navy)', 'var(--navy-light)'];
-
-
-
 
 export default function Noticias({ noticias = [] }) {
   const [selectedNoticia, setSelectedNoticia] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+
+  if (!noticias || noticias.length === 0) {
+    return null;
+  }
 
   const handleReadNoticia = (noticia) => {
     setSelectedNoticia(noticia);
     setModalOpen(true);
   };
 
-  const displayNoticias = noticias && noticias.length > 0
-    ? noticias.slice(0, 3).map((noticia, index) => {
-        const rawImage = noticia.imagen || noticia.image || null;
-        return {
-          id: `noticia-${noticia.id}`,
-          categoria: noticia.categoria || 'General',
-          fecha: formatDate(noticia.created_at),
-          titulo: noticia.titulo,
-          descripcion: makeExcerpt(noticia.contenido),
-          contenido: noticia.contenido,
-          imagen: rawImage ? storageUrl(String(rawImage).trim()) : null,
-          destacada: noticia.destacada,
-          bgColor: bgColors[index % bgColors.length],
-          created_at: noticia.created_at,
-        };
-      })
-    : defaultNoticias.slice(0, 3);
+  const displayNoticias = noticias.slice(0, 3).map((noticia, index) => {
+    const rawImage = noticia.imagen || noticia.image || null;
+    return {
+      id: `noticia-${noticia.id}`,
+      categoria: noticia.categoria || 'General',
+      fecha: formatDate(noticia.created_at),
+      titulo: noticia.titulo,
+      descripcion: makeExcerpt(noticia.contenido),
+      contenido: noticia.contenido,
+      imagen: rawImage ? storageUrl(String(rawImage).trim()) : null,
+      destacada: noticia.destacada,
+      bgColor: bgColors[index % bgColors.length],
+      created_at: noticia.created_at,
+    };
+  });
 
   return (
     <section className="noticias section" id="noticias">

@@ -1,10 +1,11 @@
+import { useEffect, useRef } from 'react';
 import './ValorSection.css';
 
 const valores = [
   {
     id: 'excelencia',
     icon: (
-      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
       </svg>
     ),
@@ -14,7 +15,7 @@ const valores = [
   {
     id: 'valores',
     icon: (
-      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
       </svg>
     ),
@@ -24,7 +25,7 @@ const valores = [
   {
     id: 'innovacion',
     icon: (
-      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/>
         <path d="M12 8v4l3 3"/>
         <path d="M9.09 9A5 5 0 1 0 17 15.45"/>
@@ -37,6 +38,26 @@ const valores = [
 ];
 
 export default function ValorSection() {
+  const gridRef = useRef(null);
+
+  useEffect(() => {
+    const cards = gridRef.current?.querySelectorAll('.valor__card');
+    if (!cards) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="valor section" id="propuesta-valor">
       <div className="container">
@@ -55,9 +76,14 @@ export default function ValorSection() {
         </div>
 
         {/* Cards Grid */}
-        <div className="valor__grid">
+        <div className="valor__grid" ref={gridRef}>
           {valores.map((v, i) => (
-            <div className="valor__card" key={v.id} id={`valor-card-${v.id}`} style={{ animationDelay: `${i * 0.15}s` }}>
+            <div
+              className="valor__card"
+              key={v.id}
+              id={`valor-card-${v.id}`}
+              style={{ transitionDelay: `${i * 0.15}s` }}
+            >
               <div className="valor__card-icon">
                 {v.icon}
               </div>

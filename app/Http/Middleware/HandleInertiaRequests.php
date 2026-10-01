@@ -39,6 +39,15 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'navGroups' => fn () => MenuPages::forNavbar(),
+            'colegiosProvincia' => fn () => \Illuminate\Support\Facades\Schema::hasTable('colegios_provincia')
+                ? \App\Models\ColegioProvincia::activo()->get()->map(fn ($c) => [
+                    'id' => $c->id,
+                    'nombre' => $c->nombre,
+                    'ciudad' => $c->ciudad,
+                    'logo' => $c->logo_url,
+                    'url' => $c->url,
+                ])
+                : [],
         ];
     }
 }

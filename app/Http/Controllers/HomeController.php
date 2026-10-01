@@ -15,9 +15,7 @@ class HomeController extends Controller
     {
         return Inertia::render('Home', [
             'heroSlides' => HeroSlide::activo()->get(),
-            'noticias' => Noticia::whereNotNull('imagen')
-                ->where('imagen', '<>', '')
-                ->latest()
+            'noticias' => Noticia::latest()
                 ->take(3)
                 ->get(),
             'ajustes' => AdmissionService::ajustesConAdmisionesDinamicas(),

@@ -41,7 +41,7 @@ HTML,
             'enlaces' => [
                 [
                     'label' => 'Inscripción en línea / Separación de cupo',
-                    'url' => 'http://www.syscolegios.com/HojasdeVida/control_est.php',
+                    'url' => 'https://www.syscolegios.org/HojasdeVida/control_est.php',
                 ],
                 [
                     'label' => 'Video bienvenida 1',
@@ -62,7 +62,7 @@ HTML,
         AjusteGeneral::instancia()->forceFill([
             'admisiones_anio' => '2026',
             'admisiones_boton_texto' => 'Inscripción en Línea',
-            'admisiones_boton_url' => 'http://www.syscolegios.com/HojasdeVida/control_est.php',
+            'admisiones_boton_url' => 'https://www.syscolegios.org/HojasdeVida/control_est.php',
             'admisiones_descripcion' => 'Las inscripciones para el año lectivo 2026 están abiertas. Cupos disponibles en preescolar, primaria y bachillerato hasta grado noveno.',
         ])->save();
     }

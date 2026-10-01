@@ -44,6 +44,26 @@
   min-width: 200px;
 }
 
+.footer__certifications {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-shrink: 0;
+}
+
+.footer__cert-img {
+  height: 84px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+  transition: transform 0.2s ease;
+}
+
+.footer__cert-img:hover {
+  transform: scale(1.05);
+}
+
 .footer__social {
   display: flex;
   gap: 0.8rem;
@@ -142,6 +162,22 @@
 .footer__link:hover {
   color: var(--gold);
   transform: translateX(4px);
+}
+
+.footer__link--static {
+  cursor: default;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.footer__link--static:hover {
+  color: rgba(255, 255, 255, 0.45);
+  transform: none;
+}
+
+.footer__legal-info {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 /* Bottom */

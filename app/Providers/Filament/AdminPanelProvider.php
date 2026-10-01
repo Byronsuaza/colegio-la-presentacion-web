@@ -30,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->passwordReset()
             ->brandName('Panel Administrador - Colegio La Presentación')
+            ->favicon(asset('favicon-32.png'))
             ->colors([
                 'primary' => '#C9A96E', // Gold
                 'gray' => Color::Slate,

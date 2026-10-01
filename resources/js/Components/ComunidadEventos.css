@@ -113,6 +113,36 @@
   border: 0;
 }
 
+.comunidad-eventos__pastoral-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.comunidad-eventos__canva-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-white, #ffffff);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+}
+
+.comunidad-eventos__canva-btn:hover {
+  background: var(--color-gold, #F5C842);
+  color: var(--color-navy-dark, #1B5E8A);
+  border-color: var(--color-gold, #F5C842);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 200, 66, 0.3);
+}
+
 /* Estado Vacío de Pastoral (Cuando no hay URL) */
 .comunidad-eventos__pastoral-empty {
   padding: 3rem 2rem;

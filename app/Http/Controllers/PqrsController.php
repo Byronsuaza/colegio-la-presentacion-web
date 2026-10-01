@@ -55,6 +55,18 @@ class PqrsController extends Controller
 
         $submission = PqrsSubmission::create($data);
 
+        // Envío de notificación por correo a Calidad
+        try {
+            $destinatario = \App\Models\AjusteGeneral::first()?->email_pqrs 
+                ?: env('PQRS_MAIL_TO', 'calidad@colpresentacioneiva.edu.co');
+
+            if (!empty($destinatario)) {
+                \Illuminate\Support\Facades\Mail::to($destinatario)->send(new \App\Mail\NuevaPqrsMail($submission));
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error("Error enviando correo de PQRS #{$submission->id}: " . $e->getMessage());
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Su solicitud PQRS ha sido registrada exitosamente con el ticket #' . $submission->id . '.',

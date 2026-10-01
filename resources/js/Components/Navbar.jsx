@@ -2,11 +2,6 @@ import { useEffect, useState } from 'react';
 import { usePage } from '@inertiajs/react';
 import './Navbar.css';
 
-const admissionsLinks = [
-  { label: 'Inscripción en Línea', href: '/admisiones/inscripcion-en-linea' },
-  { label: 'Separación de Cupo', href: 'https://www.syscolegios.com/HojasdeVida/control_est.php', external: true },
-];
-
 const getLinkHref = (link, base) => {
   if (link.url_externa) return link.url_externa;
   if (link.href) return link.href;
@@ -41,6 +36,14 @@ export default function Navbar({ ajustes, solid = false }) {
 
   // Filtrar la sección de Admisiones del menú principal (se muestra aparte como CTA)
   const mainNavGroups = navGroups.filter((g) => g.base !== '/admisiones');
+  const admisionesGroup = navGroups.find((g) => g.base === '/admisiones');
+  const dynamicAdmissionsLinks = admisionesGroup?.columns?.flatMap((c) => c.links);
+  const admissionsLinks = dynamicAdmissionsLinks && dynamicAdmissionsLinks.length > 0
+    ? dynamicAdmissionsLinks
+    : [
+        { label: 'Inscripción en Línea', href: '/admisiones/inscripcion-en-linea' },
+        { label: 'Separación de Cupo', href: 'https://www.syscolegios.org/HojasdeVida/control_est.php', external: true },
+      ];
 
   useEffect(() => {
     const handleScroll = () => setScrolled(solid || (!isHomePath) || window.scrollY > 60);
@@ -116,7 +119,7 @@ export default function Navbar({ ajustes, solid = false }) {
               {admissionsLabel}
             </a>
             <div className="navbar__cta-menu" aria-label="Opciones de admisiones">
-              {admissionsLinks.map((link) => renderLink(link, 'navbar__cta-link'))}
+              {admissionsLinks.map((link) => renderLink(link, 'navbar__cta-link', undefined, '/admisiones'))}
             </div>
           </div>
         </div>
@@ -173,7 +176,7 @@ export default function Navbar({ ajustes, solid = false }) {
             {admissionsLabel}
           </a>
           <div className="navbar__mobile-admissions-links">
-            {admissionsLinks.map((link) => renderLink(link, 'navbar__mobile-admissions-link', closeMobileMenu))}
+            {admissionsLinks.map((link) => renderLink(link, 'navbar__mobile-admissions-link', closeMobileMenu, '/admisiones'))}
           </div>
         </div>
       </div>

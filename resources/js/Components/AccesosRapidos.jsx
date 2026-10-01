@@ -1,5 +1,12 @@
 import './AccesosRapidos.css';
 
+const defaultAdmissionsUrl = '/admisiones/inscripcion-en-linea';
+
+function resolveAdmissionsUrl(url) {
+  const configuredUrl = url?.trim();
+  return configuredUrl && configuredUrl !== '#' ? configuredUrl : defaultAdmissionsUrl;
+}
+
 const IconPago = () => (
   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
@@ -36,8 +43,8 @@ const IconArrow = () => (
 
 export default function AccesosRapidos({ ajustes }) {
   const pagoUrl = ajustes?.pago_en_linea_url || '#';
-  const syscolegiosUrl = ajustes?.syscolegios_url || 'https://syscolegios.com';
-  const admisionesUrl = ajustes?.admisiones_boton_url || '/admisiones/inscripcion-en-linea';
+  const syscolegiosUrl = ajustes?.syscolegios_url || 'https://www.syscolegios.org';
+  const admisionesUrl = resolveAdmissionsUrl(ajustes?.admisiones_boton_url);
 
   const hasPagoUrl = ajustes?.pago_en_linea_url;
 

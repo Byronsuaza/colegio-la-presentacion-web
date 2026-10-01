@@ -1,5 +1,12 @@
 import './Admisiones.css';
 
+const defaultAdmissionsUrl = '/admisiones/inscripcion-en-linea';
+
+function resolveAdmissionsUrl(url) {
+  const configuredUrl = url?.trim();
+  return configuredUrl && configuredUrl !== '#' ? configuredUrl : defaultAdmissionsUrl;
+}
+
 const pasos = [
   {
     num: '01',
@@ -29,7 +36,7 @@ export default function Admisiones({ ajustes }) {
   const admissionsDescription = ajustes?.admisiones_descripcion
     || `Las inscripciones para el año lectivo ${admissionsYear} están abiertas. Cupos limitados en todos los niveles. Da el primer paso hacia una educación de excelencia.`;
   const buttonText = ajustes?.admisiones_boton_texto || 'Inscríbete Ahora';
-  const buttonUrl = ajustes?.admisiones_boton_url || '/admisiones/inscripcion-en-linea';
+  const buttonUrl = resolveAdmissionsUrl(ajustes?.admisiones_boton_url);
   const callText = ajustes?.admisiones_llamada_texto || `Llamar: ${ajustes?.telefono || '311 6304190'}`;
   const phoneHref = `tel:${(ajustes?.telefono || '3116304190').replace(/\D/g, '')}`;
 
@@ -67,10 +74,6 @@ export default function Admisiones({ ajustes }) {
               <span className="adm__tag">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
                 Proceso 100% online
-              </span>
-              <span className="adm__tag">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
-                Becas disponibles
               </span>
             </div>
           </div>

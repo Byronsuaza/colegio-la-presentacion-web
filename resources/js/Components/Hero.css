@@ -40,6 +40,21 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+  transform: scale(1);
+  transition: transform 0s;
+}
+
+.hero__slide--active .hero__bg-img {
+  animation: heroKenBurns 10s ease-out forwards;
+}
+
+@keyframes heroKenBurns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
 }
 
 .hero__overlay {
@@ -178,11 +193,31 @@
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
   color: var(--navy);
   box-shadow: 0 4px 20px rgba(245, 200, 66, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__btn--primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: skewX(-20deg);
+  animation: shimmer 2.8s infinite 1.5s;
+}
+
+@keyframes shimmer {
+  0%   { left: -100%; }
+  60%  { left: 130%; }
+  100% { left: 130%; }
 }
 
 .hero__btn--primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(245, 200, 66, 0.5);
+  box-shadow: 0 12px 35px rgba(245, 200, 66, 0.55);
 }
 
 .hero__btn--secondary {
@@ -194,6 +229,7 @@
 .hero__btn--secondary:hover {
   background: rgba(255,255,255,0.1);
   border-color: var(--white);
+  transform: translateY(-2px);
 }
 
 

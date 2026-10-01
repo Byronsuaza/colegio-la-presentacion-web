@@ -26,7 +26,7 @@ class PruebasDiagnosticasController extends Controller
             return response()->json(['ok' => true]);
         }
 
-        $ok = $request->password === $stored;
+        $ok = hash_equals($stored, (string) $request->password);
 
         return response()->json(['ok' => $ok], $ok ? 200 : 401);
     }

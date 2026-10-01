@@ -5,75 +5,27 @@ import './ComitesAcademicos.css';
 export default function ComitesAcademicos({ areas = [] }) {
   const [expandedArea, setExpandedArea] = useState(null);
 
-  const defaultAreas = [
-    {
-      id: 'castellano',
-      titulo: 'Área de Castellano',
-      coordinador: 'Coordinador(a)',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      enlaces: []
-    },
-    {
-      id: 'ciencias',
-      titulo: 'Área de Ciencias',
-      coordinador: 'Coordinador(a)',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      enlaces: []
-    },
-    {
-      id: 'ed-fisica',
-      titulo: 'Área de Educación Física y Artística',
-      coordinador: 'Coordinador(a)',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      enlaces: []
-    },
-    {
-      id: 'idioma',
-      titulo: 'Área de Idioma Extranjero',
-      coordinador: 'Coordinador(a)',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      enlaces: []
-    },
-    {
-      id: 'matematicas',
-      titulo: 'Área de Matemáticas',
-      coordinador: 'Coordinador(a)',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      enlaces: []
-    },
-    {
-      id: 'preescolar',
-      titulo: 'Área de Preescolar',
-      coordinador: 'Coordinador(a)',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      enlaces: []
-    },
-    {
-      id: 'religion',
-      titulo: 'Área de Religión',
-      coordinador: 'Coordinador(a)',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      enlaces: []
-    },
-    {
-      id: 'sociales',
-      titulo: 'Área de Sociales',
-      coordinador: 'Coordinador(a)',
-      descripcion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      enlaces: []
-    }
-  ];
-
-  const areasData = areas.length > 0 ? areas : defaultAreas;
-
   const toggleArea = (areaId) => {
     setExpandedArea(expandedArea === areaId ? null : areaId);
   };
 
+  if (!areas || areas.length === 0) {
+    return (
+      <div className="comites-academicos">
+        <div className="menu-page__notice">
+          <span className="menu-page__notice-label">Información</span>
+          <p>
+            No hay comités académicos registrados por el momento.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="comites-academicos">
       <div className="comites-academicos__grid">
-        {areasData.map((area, index) => (
+        {areas.map((area, index) => (
           <div
             key={area.id || index}
             className={`comites-academicos__card ${expandedArea === area.id ? 'expanded' : ''}`}

@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\AjusteGenerals\Schemas;
 
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Grid;
 
@@ -27,6 +29,13 @@ class AjusteGeneralForm
                                 TextInput::make('direccion')
                                     ->maxLength(255),
                                 TextInput::make('email')
+                                    ->label('Correo Electrónico General')
+                                    ->email()
+                                    ->maxLength(255),
+                                TextInput::make('email_pqrs')
+                                    ->label('Correo para Notificaciones de PQRS')
+                                    ->helperText('A este correo llegarán las solicitudes enviadas desde el formulario PQRS.')
+                                    ->placeholder('calidad@colpresentacioneiva.edu.co')
                                     ->email()
                                     ->maxLength(255),
                             ])->columns(1),
@@ -78,6 +87,30 @@ class AjusteGeneralForm
                     ])->columns(2)
                     ->columnSpanFull(),
 
+                Section::make('Popup de Admisiones')
+                    ->description('Configura el aviso emergente que aparece en la página de inicio.')
+                    ->compact()
+                    ->schema([
+                        Toggle::make('popup_habilitado')
+                            ->label('Popup habilitado')
+                            ->helperText('Activa o desactiva el aviso emergente desde el panel de administración.')
+                            ->columnSpanFull(),
+                        TextInput::make('popup_button_text')
+                            ->maxLength(255)
+                            ->label('Texto del botón del popup')
+                            ->columnSpanFull(),
+                        TextInput::make('popup_button_url')
+                            ->maxLength(255)
+                            ->label('URL del botón del popup')
+                            ->columnSpanFull(),
+                        FileUpload::make('popup_imagen')
+                            ->image()
+                            ->directory('popups')
+                            ->label('Imagen del popup')
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpanFull(),
+
                 // ── Fila 3: Pastoral y Pagos (lado a lado) ──
                 Grid::make(2)
                     ->schema([
@@ -104,7 +137,7 @@ class AjusteGeneralForm
                                 TextInput::make('syscolegios_url')
                                     ->url()
                                     ->columnSpanFull()
-                                    ->placeholder('https://syscolegios.com/...')
+                                    ->placeholder('https://syscolegios.org/...')
                                     ->label('URL Portal Syscolegios')
                                     ->helperText('Enlace directo al portal de Syscolegios.'),
                             ]),
