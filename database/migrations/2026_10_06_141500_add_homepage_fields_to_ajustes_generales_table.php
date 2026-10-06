@@ -85,7 +85,7 @@ return new class extends Migration
                     'descripcion' => 'Ambientes lúdicos y afectivos que estimulan el desarrollo integral de la primera infancia. Potenciamos la creatividad, la socialización y el amor por el aprendizaje desde los primeros años.',
                     'features' => ['Aulas Montessori', 'Psicorientación', 'Inglés desde los 3 años'],
                     'enlace' => '/nuestra-institucion/seccion-preescolar',
-                    'imagen' => '/preescolar.png',
+                    'imagen' => 'oferta-educativa/preescolar.png',
                 ],
                 [
                     'nivel' => 'Básica Primaria',
@@ -93,7 +93,7 @@ return new class extends Migration
                     'descripcion' => 'Consolidamos las competencias fundamentales con una metodología activa e interdisciplinar. Formamos pensadores críticos, lectores apasionados y ciudadanos comprometidos con su entorno.',
                     'features' => ['Bilingüismo', 'Laboratorios Stem', 'Arte y Deporte'],
                     'enlace' => '/nuestra-institucion/seccion-primaria',
-                    'imagen' => '/primaria.png',
+                    'imagen' => 'oferta-educativa/primaria.png',
                 ],
                 [
                     'nivel' => 'Bachillerato',
@@ -101,7 +101,7 @@ return new class extends Migration
                     'descripcion' => 'Preparación académica de élite orientada al ingreso a universidades de prestigio. Profundizamos en ciencias, humanidades y tecnología con énfasis en liderazgo y emprendimiento social.',
                     'features' => ['Preuniversitario', 'Proyecto de Vida', 'ICFES Superior'],
                     'enlace' => '/nuestra-institucion/seccion-bachillerato',
-                    'imagen' => '/bachillerato.png',
+                    'imagen' => 'oferta-educativa/bachillerato.png',
                 ],
             ]),
             'footer_anio_fundacion' => '1882',

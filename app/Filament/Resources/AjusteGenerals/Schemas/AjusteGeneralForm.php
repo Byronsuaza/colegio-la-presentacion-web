@@ -212,10 +212,15 @@ class AjusteGeneralForm
                                     ->columnSpanFull(),
                                 TextInput::make('enlace')
                                     ->label('Ruta del enlace "Conocer más"')
-                                    ->placeholder('/nuestra-institucion/seccion-preescolar'),
-                                TextInput::make('imagen')
-                                    ->label('Ruta de la imagen de portada')
-                                    ->placeholder('/preescolar.png'),
+                                    ->placeholder('/nuestra-institucion/seccion-preescolar')
+                                    ->columnSpanFull(),
+                                \App\Support\ImageOptimizer::configure(FileUpload::make('imagen'), 'oferta-educativa')
+                                    ->label('Foto / Imagen de Portada')
+                                    ->image()
+                                    ->disk('public')
+                                    ->imagePreviewHeight('180')
+                                    ->columnSpanFull()
+                                    ->helperText('Sube una foto representativa para este nivel educativo (se optimizará automáticamente).'),
                             ])
                             ->columns(2)
                             ->collapsible()

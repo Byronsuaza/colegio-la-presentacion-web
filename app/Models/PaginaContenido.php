@@ -18,14 +18,28 @@ class PaginaContenido extends Model
         'imagen',
         'url_externa',
         'contenido',
+        'datos_estructurados',
         'enlaces',
         'publicada',
     ];
 
     protected $casts = [
         'enlaces' => 'array',
+        'datos_estructurados' => 'array',
         'publicada' => 'boolean',
     ];
+
+    protected static function booted()
+    {
+        static::saving(function (PaginaContenido $page) {
+            if (!empty($page->datos_estructurados) && in_array($page->slug, ['mision', 'rectora', 'principios', 'simbolos'])) {
+                $compiled = \App\Support\PaginaLayoutBuilder::buildHtml($page->slug, $page->datos_estructurados);
+                if ($compiled) {
+                    $page->attributes['contenido'] = $compiled;
+                }
+            }
+        });
+    }
 
     public function scopePublicadas($query)
     {

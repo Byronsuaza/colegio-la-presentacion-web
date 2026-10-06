@@ -7,6 +7,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
@@ -118,6 +119,7 @@ class PaginaContenidoForm
                                         TextInput::make('slug')
                                             ->required()
                                             ->maxLength(255)
+                                            ->live()
                                             ->label('Slug')
                                             ->helperText('Ej: mision')
                                             ->columnSpan(1),
@@ -145,9 +147,148 @@ class PaginaContenidoForm
                                             ->label('Subtítulo / resumen')
                                             ->columnSpan(1),
 
+                                        // Editor estándar para páginas regulares
                                         RichEditor::make('contenido')
                                             ->columnSpanFull()
-                                            ->label('Contenido de la página'),
+                                            ->label('Contenido de la página')
+                                            ->visible(fn ($get) => !in_array($get('slug'), ['mision', 'rectora', 'principios', 'simbolos'])),
+
+                                        // ── Misión (Diseño estructurado con tarjetas) ──
+                                        Grid::make(1)
+                                            ->visible(fn ($get) => $get('slug') === 'mision')
+                                            ->schema([
+                                                Textarea::make('datos_estructurados.intro_principal')
+                                                    ->label('Párrafo Principal (Misión destacada)')
+                                                    ->rows(3)
+                                                    ->required(),
+                                                Textarea::make('datos_estructurados.intro_secundaria')
+                                                    ->label('Párrafo Secundario')
+                                                    ->rows(2),
+                                                Repeater::make('datos_estructurados.tarjetas')
+                                                    ->label('Tarjetas de Misión (3 Columnas)')
+                                                    ->schema([
+                                                        TextInput::make('titulo')
+                                                            ->label('Título de la Tarjeta')
+                                                            ->required(),
+                                                        ImageOptimizer::configure(FileUpload::make('imagen'), 'paginas')
+                                                            ->label('Foto de la tarjeta')
+                                                            ->disk('public')
+                                                            ->image()
+                                                            ->imagePreviewHeight('150')
+                                                            ->columnSpanFull(),
+                                                        Textarea::make('descripcion')
+                                                            ->label('Descripción')
+                                                            ->rows(2)
+                                                            ->required()
+                                                            ->columnSpanFull(),
+                                                    ])
+                                                    ->columns(1)
+                                                    ->collapsible(),
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        // ── Rectora (Diseño estructurado con foto, cita y mensaje) ──
+                                        Grid::make(2)
+                                            ->visible(fn ($get) => $get('slug') === 'rectora')
+                                            ->schema([
+                                                ImageOptimizer::configure(FileUpload::make('datos_estructurados.foto'), 'paginas')
+                                                    ->label('Foto de la Rectora')
+                                                    ->disk('public')
+                                                    ->image()
+                                                    ->imagePreviewHeight('200')
+                                                    ->columnSpanFull(),
+                                                TextInput::make('datos_estructurados.nombre')
+                                                    ->label('Nombre Completo')
+                                                    ->placeholder('Hna. Yolanda Gómez Aristizabal')
+                                                    ->required()
+                                                    ->columnSpan(1),
+                                                TextInput::make('datos_estructurados.cargo')
+                                                    ->label('Cargo / Título')
+                                                    ->placeholder('Rectora de la Institución')
+                                                    ->required()
+                                                    ->columnSpan(1),
+                                                Textarea::make('datos_estructurados.frase')
+                                                    ->label('Frase o Cita Destacada (Barra dorada)')
+                                                    ->rows(3)
+                                                    ->columnSpanFull(),
+                                                RichEditor::make('datos_estructurados.mensaje')
+                                                    ->label('Mensaje de Bienvenida')
+                                                    ->columnSpanFull(),
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        // ── Principios (Diseño estructurado con tarjetas) ──
+                                        Grid::make(1)
+                                            ->visible(fn ($get) => $get('slug') === 'principios')
+                                            ->schema([
+                                                Textarea::make('datos_estructurados.intro')
+                                                    ->label('Texto Introductorio')
+                                                    ->rows(2)
+                                                    ->required(),
+                                                Repeater::make('datos_estructurados.tarjetas')
+                                                    ->label('Tarjetas de Principios')
+                                                    ->schema([
+                                                        TextInput::make('titulo')
+                                                            ->label('Título del Principio')
+                                                            ->required(),
+                                                        TextInput::make('badge')
+                                                            ->label('Etiqueta (Badge)')
+                                                            ->placeholder('Singularidad, Apertura, etc.'),
+                                                        ImageOptimizer::configure(FileUpload::make('imagen'), 'paginas')
+                                                            ->label('Foto del principio')
+                                                            ->disk('public')
+                                                            ->image()
+                                                            ->imagePreviewHeight('150')
+                                                            ->columnSpanFull(),
+                                                        Textarea::make('descripcion')
+                                                            ->label('Descripción')
+                                                            ->rows(2)
+                                                            ->required()
+                                                            ->columnSpanFull(),
+                                                    ])
+                                                    ->columns(2)
+                                                    ->collapsible(),
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        // ── Símbolos (Himno, Mascota, Estrofas) ──
+                                        Grid::make(2)
+                                            ->visible(fn ($get) => $get('slug') === 'simbolos')
+                                            ->schema([
+                                                ImageOptimizer::configure(FileUpload::make('datos_estructurados.imagen'), 'paginas')
+                                                    ->label('Foto Mascota / Partitura / Escudo')
+                                                    ->disk('public')
+                                                    ->image()
+                                                    ->imagePreviewHeight('180')
+                                                    ->columnSpanFull(),
+                                                TextInput::make('datos_estructurados.titulo')
+                                                    ->label('Título')
+                                                    ->placeholder('Himno del Colegio')
+                                                    ->columnSpan(1),
+                                                TextInput::make('datos_estructurados.meta')
+                                                    ->label('Autores (Letra y Música)')
+                                                    ->placeholder('Letra: ... / Música: ...')
+                                                    ->columnSpan(1),
+                                                Textarea::make('datos_estructurados.coro')
+                                                    ->label('Coro del Himno (Recuadro Dorado)')
+                                                    ->rows(4)
+                                                    ->columnSpanFull(),
+                                                Repeater::make('datos_estructurados.estrofas')
+                                                    ->label('Estrofas del Himno')
+                                                    ->schema([
+                                                        TextInput::make('numero')
+                                                            ->label('Estrofa (ej: I Estrofa)')
+                                                            ->required(),
+                                                        Textarea::make('texto')
+                                                            ->label('Letra de la Estrofa')
+                                                            ->rows(3)
+                                                            ->required(),
+                                                    ])
+                                                    ->columns(2)
+                                                    ->collapsible()
+                                                    ->columnSpanFull(),
+                                            ])
+                                            ->columnSpanFull(),
                                     ])
                                     ->columns(2),
 

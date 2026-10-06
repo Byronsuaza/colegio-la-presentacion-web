@@ -1,4 +1,5 @@
 import './OfertaEducativa.css';
+import { storageUrl } from '../utils/url';
 
 const defaultNiveles = [
   {
@@ -70,7 +71,8 @@ export default function OfertaEducativa({ ajustes }) {
         {/* Panels */}
         <div className="oferta__panels">
           {nivelesList.map((n, index) => {
-            const imgSrc = n.imagen || n.img || defaultImgs[index % defaultImgs.length];
+            const rawImg = n.imagen || n.img || defaultImgs[index % defaultImgs.length];
+            const imgSrc = storageUrl(rawImg) || defaultImgs[index % defaultImgs.length];
             const routeHref = n.enlace || defaultRoutes[n.id] || defaultRoutes[index] || '#';
             const features = Array.isArray(n.features) ? n.features : [];
 
