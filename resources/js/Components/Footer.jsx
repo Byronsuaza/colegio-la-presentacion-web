@@ -90,8 +90,8 @@ export default function Footer({ ajustes, mostrarProvincia = true }) {
           </div>
 
           <p className="footer__tagline">
-            Formando personas íntegras desde 1882,<br />
-            inspiradas en el carisma de Marie Poussepin.
+            Formando personas íntegras desde {ajustes?.footer_anio_fundacion || '1882'},<br />
+            {ajustes?.footer_lema || 'inspiradas en el carisma de Marie Poussepin.'}
           </p>
 
           <div className="footer__certifications">

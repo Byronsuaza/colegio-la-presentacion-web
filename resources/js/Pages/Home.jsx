@@ -21,9 +21,9 @@ export default function Home({ heroSlides, noticias, ajustes, eventos }) {
             <main>
                 <Hero slides={heroSlides} ajustes={ajustes} />
                 <AccesosRapidos ajustes={ajustes} />
-                <ValorSection />
+                <ValorSection ajustes={ajustes} />
                 <ComunidadEventos eventos={eventos} ajustes={ajustes} />
-                <OfertaEducativa />
+                <OfertaEducativa ajustes={ajustes} />
                 <PagoEnLinea ajustes={ajustes} />
                 <Noticias noticias={noticias} />
                 <Admisiones ajustes={ajustes} />

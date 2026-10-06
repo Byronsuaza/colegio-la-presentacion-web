@@ -1,6 +1,6 @@
 import './OfertaEducativa.css';
 
-const niveles = [
+const defaultNiveles = [
   {
     id: 'preescolar',
     img: '/preescolar.png',
@@ -33,14 +33,25 @@ const niveles = [
   },
 ];
 
-const sectionRoutes = {
+const defaultRoutes = {
+  0: '/nuestra-institucion/seccion-preescolar',
+  1: '/nuestra-institucion/seccion-primaria',
+  2: '/nuestra-institucion/seccion-bachillerato',
   preescolar: '/nuestra-institucion/seccion-preescolar',
   primaria: '/nuestra-institucion/seccion-primaria',
   bachillerato: '/nuestra-institucion/seccion-bachillerato',
 };
 
-export default function OfertaEducativa() {
-  const getRoute = (id) => sectionRoutes[id] || '#';
+const defaultImgs = ['/preescolar.png', '/primaria.png', '/bachillerato.png'];
+
+export default function OfertaEducativa({ ajustes }) {
+  const titulo = ajustes?.oferta_titulo || 'Nuestra Oferta Educativa';
+  const subtitulo = ajustes?.oferta_subtitulo || 'Tres ciclos formativos diseñados para acompañar al estudiante en cada etapa de su desarrollo, con metodologías diferenciadas y propósitos claros.';
+
+  const nivelesList = Array.isArray(ajustes?.oferta_niveles) && ajustes.oferta_niveles.length > 0
+    ? ajustes.oferta_niveles
+    : defaultNiveles;
+
   return (
     <section className="oferta section section--off-white" id="oferta-educativa">
       <div className="container">
@@ -49,53 +60,59 @@ export default function OfertaEducativa() {
           <span className="eyebrow">Formación Integral</span>
           <span className="divider-gold" />
           <h2 className="section-title">
-            Nuestra Oferta<br />
-            <em className="oferta__title-em">Educativa</em>
+            {titulo}
           </h2>
           <p className="section-subtitle">
-            Tres ciclos formativos diseñados para acompañar al estudiante en cada etapa de su desarrollo,
-            con metodologías diferenciadas y propósitos claros.
+            {subtitulo}
           </p>
         </div>
 
         {/* Panels */}
         <div className="oferta__panels">
-          {niveles.map((n) => (
-            <div className="oferta__panel" key={n.id} id={`oferta-panel-${n.id}`}>
-              {/* Image */}
-              <div className="oferta__panel-img-wrap">
-                <img src={n.img} alt={n.nivel} className="oferta__panel-img" />
-                <div className="oferta__panel-img-overlay" />
-                <div className="oferta__panel-nivel-badge">{n.nivel}</div>
+          {nivelesList.map((n, index) => {
+            const imgSrc = n.imagen || n.img || defaultImgs[index % defaultImgs.length];
+            const routeHref = n.enlace || defaultRoutes[n.id] || defaultRoutes[index] || '#';
+            const features = Array.isArray(n.features) ? n.features : [];
+
+            return (
+              <div className="oferta__panel" key={n.id || index} id={`oferta-panel-${n.id || index}`}>
+                {/* Image */}
+                <div className="oferta__panel-img-wrap">
+                  <img src={imgSrc} alt={n.nivel} className="oferta__panel-img" />
+                  <div className="oferta__panel-img-overlay" />
+                  <div className="oferta__panel-nivel-badge">{n.nivel}</div>
+                </div>
+
+                {/* Content */}
+                <div className="oferta__panel-body">
+                  <div className="oferta__panel-grados">{n.grados}</div>
+                  <h3 className="oferta__panel-title">{n.nivel}</h3>
+                  <p className="oferta__panel-desc">{n.descripcion}</p>
+
+                  {/* Features */}
+                  {features.length > 0 && (
+                    <ul className="oferta__panel-features">
+                      {features.map((f, fIdx) => (
+                        <li key={fIdx} className="oferta__panel-feature">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <a href={routeHref} className="oferta__panel-link" id={`oferta-link-${n.id || index}`}>
+                    Conocer más
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </a>
+                </div>
               </div>
-
-              {/* Content */}
-              <div className="oferta__panel-body">
-                <div className="oferta__panel-grados">{n.grados}</div>
-                <h3 className="oferta__panel-title">{n.nivel}</h3>
-                <p className="oferta__panel-desc">{n.descripcion}</p>
-
-                {/* Features */}
-                <ul className="oferta__panel-features">
-                  {n.features.map((f) => (
-                    <li key={f} className="oferta__panel-feature">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-
-                <a href={getRoute(n.id)} className="oferta__panel-link" id={`oferta-link-${n.id}`}>
-                  Conocer más
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </a>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

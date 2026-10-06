@@ -4,6 +4,8 @@ namespace App\Filament\Resources\AjusteGenerals\Schemas;
 
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
@@ -58,8 +60,8 @@ class AjusteGeneralForm
                     ->columnSpanFull(),
 
                 // ── Fila 2: Admisiones (ancho completo) ──
-                Section::make('Admisiones')
-                    ->description('Textos globales de la campaña de admisiones. Actualiza el año aquí y se reflejará en el sitio.')
+                Section::make('Admisiones (Página Principal)')
+                    ->description('Textos globales de la campaña de admisiones, llamadas a la acción y pasos del proceso.')
                     ->compact()
                     ->schema([
                         TextInput::make('admisiones_anio')
@@ -84,6 +86,30 @@ class AjusteGeneralForm
                         TextInput::make('admisiones_llamada_texto')
                             ->maxLength(255)
                             ->label('Texto del botón de llamada'),
+                        TagsInput::make('admisiones_tags')
+                            ->label('Etiquetas del Proceso (Badges)')
+                            ->placeholder('Escribe una etiqueta y presiona Enter')
+                            ->helperText('Etiquetas verdes con icono de verificación bajo los botones.')
+                            ->columnSpanFull(),
+                        Repeater::make('admisiones_pasos')
+                            ->label('Pasos del Proceso de Admisión (Columna Derecha)')
+                            ->schema([
+                                TextInput::make('num')
+                                    ->label('Número')
+                                    ->placeholder('01')
+                                    ->required(),
+                                TextInput::make('titulo')
+                                    ->label('Título del Paso')
+                                    ->required(),
+                                Textarea::make('desc')
+                                    ->label('Descripción del Paso')
+                                    ->rows(2)
+                                    ->required()
+                                    ->columnSpanFull(),
+                            ])
+                            ->columns(2)
+                            ->collapsible()
+                            ->columnSpanFull(),
                     ])->columns(2)
                     ->columnSpanFull(),
 
@@ -111,7 +137,93 @@ class AjusteGeneralForm
                     ])
                     ->columnSpanFull(),
 
-                // ── Fila 3: Pastoral y Pagos (lado a lado) ──
+                // ── Fila 3: Propuesta de Valor / Identidad ──
+                Section::make('Propuesta de Valor / Identidad (Página Principal)')
+                    ->description('Configura los textos, pilares y cita de "Una Educación que Transforma Vidas".')
+                    ->compact()
+                    ->schema([
+                        TextInput::make('valor_titulo')
+                            ->label('Título de la Sección')
+                            ->placeholder('Una Educación que Transforma Vidas')
+                            ->columnSpanFull(),
+                        Textarea::make('valor_subtitulo')
+                            ->label('Subtítulo / Introducción')
+                            ->rows(2)
+                            ->columnSpanFull(),
+                        Repeater::make('valor_pilares')
+                            ->label('Pilares o Valores Institucionales (Tarjetas)')
+                            ->schema([
+                                TextInput::make('titulo')
+                                    ->label('Título del Pilar')
+                                    ->required(),
+                                Textarea::make('descripcion')
+                                    ->label('Descripción')
+                                    ->rows(3)
+                                    ->required()
+                                    ->columnSpanFull(),
+                            ])
+                            ->columns(1)
+                            ->collapsible()
+                            ->columnSpanFull(),
+                        TextInput::make('valor_frase_autor')
+                            ->label('Autor o Atribución de la Cita')
+                            ->placeholder('— Inspirados en el Carisma de Marie Poussepin')
+                            ->columnSpanFull(),
+                        Textarea::make('valor_frase')
+                            ->label('Frase o Lema Destacado (Cita inferior)')
+                            ->rows(2)
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpanFull(),
+
+                // ── Fila 4: Oferta Educativa ──
+                Section::make('Oferta Educativa (Página Principal)')
+                    ->description('Configura los títulos y las tarjetas de los niveles educativos (Preescolar, Primaria, Bachillerato).')
+                    ->compact()
+                    ->schema([
+                        TextInput::make('oferta_titulo')
+                            ->label('Título de la Sección')
+                            ->placeholder('Nuestra Oferta Educativa')
+                            ->columnSpanFull(),
+                        Textarea::make('oferta_subtitulo')
+                            ->label('Subtítulo / Introducción')
+                            ->rows(2)
+                            ->columnSpanFull(),
+                        Repeater::make('oferta_niveles')
+                            ->label('Tarjetas de Niveles Educativos')
+                            ->schema([
+                                TextInput::make('nivel')
+                                    ->label('Nombre del Nivel')
+                                    ->placeholder('Preescolar, Básica Primaria, etc.')
+                                    ->required(),
+                                TextInput::make('grados')
+                                    ->label('Grados que comprende')
+                                    ->placeholder('Jardín · Transición')
+                                    ->required(),
+                                Textarea::make('descripcion')
+                                    ->label('Descripción')
+                                    ->rows(3)
+                                    ->required()
+                                    ->columnSpanFull(),
+                                TagsInput::make('features')
+                                    ->label('Puntos clave / Viñetas con check')
+                                    ->placeholder('Escribe y presiona Enter')
+                                    ->helperText('Características destacadas del nivel.')
+                                    ->columnSpanFull(),
+                                TextInput::make('enlace')
+                                    ->label('Ruta del enlace "Conocer más"')
+                                    ->placeholder('/nuestra-institucion/seccion-preescolar'),
+                                TextInput::make('imagen')
+                                    ->label('Ruta de la imagen de portada')
+                                    ->placeholder('/preescolar.png'),
+                            ])
+                            ->columns(2)
+                            ->collapsible()
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpanFull(),
+
+                // ── Fila 5: Pastoral y Pagos (lado a lado) ──
                 Grid::make(2)
                     ->schema([
                         Section::make('Pastoral / Evangelio')
@@ -146,7 +258,22 @@ class AjusteGeneralForm
                     ])
                     ->columnSpanFull(),
 
-                // ── Fila 4: Pruebas Diagnósticas (acceso con contraseña) ──
+                // ── Fila 6: Pie de Página (Footer) ──
+                Section::make('Pie de Página (Footer)')
+                    ->description('Textos institucionales ubicados en la parte inferior de todas las páginas.')
+                    ->compact()
+                    ->schema([
+                        TextInput::make('footer_anio_fundacion')
+                            ->label('Año de Fundación')
+                            ->placeholder('1882'),
+                        TextInput::make('footer_lema')
+                            ->label('Lema o Frase Institucional')
+                            ->placeholder('inspiradas en el carisma de Marie Poussepin.'),
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull(),
+
+                // ── Fila 7: Pruebas Diagnósticas (acceso con contraseña) ──
                 Section::make('Pruebas Diagnósticas')
                     ->description('Protege la página de Pruebas Diagnósticas con una contraseña. Déjalo vacío para que la página sea pública.')
                     ->compact()

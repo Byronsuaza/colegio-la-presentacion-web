@@ -33,10 +33,26 @@ class AjusteGeneral extends Model
         'pago_en_linea_url',
         'syscolegios_url',
         'pruebas_diagnosticas_password',
+        'admisiones_pasos',
+        'admisiones_tags',
+        'valor_titulo',
+        'valor_subtitulo',
+        'valor_frase',
+        'valor_frase_autor',
+        'valor_pilares',
+        'oferta_titulo',
+        'oferta_subtitulo',
+        'oferta_niveles',
+        'footer_anio_fundacion',
+        'footer_lema',
     ];
 
     protected $casts = [
         'popup_habilitado' => 'boolean',
+        'admisiones_pasos' => 'array',
+        'admisiones_tags' => 'array',
+        'valor_pilares' => 'array',
+        'oferta_niveles' => 'array',
     ];
 
     /**
