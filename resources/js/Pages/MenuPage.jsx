@@ -25,19 +25,40 @@ const isExternalResource = (link) => {
   return link.url?.startsWith('http://') || link.url?.startsWith('https://');
 };
 
-const isVideoLink = (link) => {
-  if (!link.url) return false;
+const isDriveLink = (link) => {
+  if (!link?.url) return false;
   const url = link.url.toLowerCase();
-  const label = (link.label || '').toLowerCase();
-  
-  const isVideoUrl = url.includes('youtube.com') || 
-                     url.includes('youtu.be') || 
-                     url.includes('vimeo.com') ||
-                     (url.includes('drive.google.com') && (url.includes('/file/d/') || url.includes('id=')));
-                     
-  const isVideoLabel = label.includes('video') || label.includes('bienvenida');
-  
-  return isVideoUrl || isVideoLabel;
+  return (
+    url.includes('drive.google.com') &&
+    (url.includes('/file/d/') || url.includes('id=') || url.includes('/preview') || url.includes('/view'))
+  );
+};
+
+const getDriveEmbedUrl = (url) => {
+  if (!url) return null;
+  const cleanUrl = url.trim();
+  if (cleanUrl.includes('drive.google.com')) {
+    let fileId = '';
+    try {
+      if (cleanUrl.includes('/file/d/')) {
+        fileId = cleanUrl.split('/file/d/')[1]?.split('/')[0]?.split('?')[0] || '';
+      } else if (cleanUrl.includes('id=')) {
+        const query = cleanUrl.split('?')[1] || '';
+        const urlParams = new URLSearchParams(query);
+        fileId = urlParams.get('id') || '';
+      }
+    } catch (e) {
+      console.error("Error parsing Drive URL", e);
+    }
+    return fileId ? `https://drive.google.com/file/d/${fileId}/preview` : cleanUrl;
+  }
+  return null;
+};
+
+const isPureVideoLink = (link) => {
+  if (!link?.url) return false;
+  const url = link.url.toLowerCase();
+  return url.includes('youtube.com') || url.includes('youtu.be') || url.includes('vimeo.com');
 };
 
 const getVideoEmbedUrl = (url) => {
@@ -70,19 +91,7 @@ const getVideoEmbedUrl = (url) => {
   
   // Google Drive
   if (cleanUrl.includes('drive.google.com')) {
-    let fileId = '';
-    try {
-      if (cleanUrl.includes('/file/d/')) {
-        fileId = cleanUrl.split('/file/d/')[1]?.split('/')[0] || '';
-      } else if (cleanUrl.includes('id=')) {
-        const query = cleanUrl.split('?')[1] || '';
-        const urlParams = new URLSearchParams(query);
-        fileId = urlParams.get('id') || '';
-      }
-    } catch (e) {
-      console.error("Error parsing Drive URL", e);
-    }
-    return fileId ? `https://drive.google.com/file/d/${fileId}/preview` : null;
+    return getDriveEmbedUrl(cleanUrl);
   }
   
   return null;
@@ -102,8 +111,33 @@ export default function MenuPage({ page, sectionPages = [], ajustes, galleryAlbu
   const hasGallery = galleryAlbums.length > 0;
 
   const allLinks = page.links || [];
-  const videoLinks = allLinks.filter(isVideoLink);
-  const nonVideoLinks = allLinks.filter((l) => !isVideoLink(l));
+  const isAdmisiones = page.base === 'admisiones';
+
+  // Clasificación inteligente de enlaces:
+  // 1. Enlaces Google Drive para páginas generales (fuera de videos de admisiones)
+  const driveLinks = allLinks.filter((l) => {
+    if (l.archivo) return false;
+    if (isAdmisiones) {
+      const label = (l.label || '').toLowerCase();
+      if (label.includes('video') || label.includes('bienvenida')) return false;
+    }
+    return isDriveLink(l);
+  });
+
+  // 2. Enlaces de Video (YouTube/Vimeo en general, o videos de bienvenida en Admisiones)
+  const videoLinks = allLinks.filter((l) => {
+    if (l.archivo) return false;
+    if (driveLinks.includes(l)) return false;
+    if (isAdmisiones) {
+      return isPureVideoLink(l) || isDriveLink(l);
+    }
+    return isPureVideoLink(l);
+  });
+
+  // 3. Enlaces restantes (documentos o recursos no embed)
+  const nonVideoLinks = allLinks.filter((l) => {
+    return !l.archivo && !videoLinks.includes(l) && !driveLinks.includes(l);
+  });
 
   // Detección de dispositivos móviles o táctiles
   const [isMobile, setIsMobile] = useState(false);
@@ -212,8 +246,12 @@ export default function MenuPage({ page, sectionPages = [], ajustes, galleryAlbu
                     </div>
                   )}
 
+                  {driveLinks.length > 0 && (
+                    <DriveSection driveLinks={driveLinks} />
+                  )}
+
                   {videoLinks.length > 0 && (
-                    <VideoSection videoLinks={videoLinks} />
+                    <VideoSection videoLinks={videoLinks} isAdmisiones={isAdmisiones} />
                   )}
 
                   {page.links?.length > 0 && page.links.some((l) => l.archivo) && (
@@ -297,23 +335,117 @@ export default function MenuPage({ page, sectionPages = [], ajustes, galleryAlbu
   );
 }
 
-/* ─── Video Section Component ───────────────────────────────────── */
-function VideoSection({ videoLinks }) {
+/* ─── Google Drive Document Viewer Component ──────────────────────── */
+function DriveSection({ driveLinks }) {
   const [activeIdx, setActiveIdx] = React.useState(0);
 
-  if (videoLinks.length === 0) return null;
+  if (!driveLinks || driveLinks.length === 0) return null;
 
-  const currentVideo = videoLinks[activeIdx];
+  const currentDoc = driveLinks[activeIdx] || driveLinks[0];
+  const embedUrl = getDriveEmbedUrl(currentDoc.url);
+
+  return (
+    <div className="menu-page__drive-viewer">
+      <div className="menu-page__drive-header">
+        <div className="menu-page__drive-header-text">
+          <div className="menu-page__drive-badge">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+            <span>Documento Interactivo / Recurso en Línea</span>
+          </div>
+          <h3 className="menu-page__drive-title">{currentDoc.label || 'Documento Institucional'}</h3>
+        </div>
+
+        {currentDoc.url && (
+          <a
+            href={currentDoc.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="menu-page__drive-open-btn"
+          >
+            <span>Abrir en Google Drive</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
+          </a>
+        )}
+      </div>
+
+      {driveLinks.length > 1 && (
+        <div className="menu-page__drive-tabs">
+          {driveLinks.map((doc, idx) => (
+            <button
+              key={idx}
+              type="button"
+              className={`menu-page__drive-tab ${idx === activeIdx ? 'menu-page__drive-tab--active' : ''}`}
+              onClick={() => setActiveIdx(idx)}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+              <span>{doc.label}</span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className="menu-page__drive-card">
+        <div className="menu-page__drive-iframe-wrap">
+          {embedUrl ? (
+            <iframe
+              src={embedUrl}
+              title={currentDoc.label || 'Documento Google Drive'}
+              frameBorder="0"
+              allow="autoplay"
+              allowFullScreen
+            />
+          ) : (
+            <div className="menu-page__video-placeholder">
+              <p>No se pudo generar la vista previa interactiva de este enlace.</p>
+              <a
+                href={currentDoc.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="menu-page__video-direct-btn"
+              >
+                Abrir en Google Drive
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Video Section Component ───────────────────────────────────── */
+function VideoSection({ videoLinks, isAdmisiones = false }) {
+  const [activeIdx, setActiveIdx] = React.useState(0);
+
+  if (!videoLinks || videoLinks.length === 0) return null;
+
+  const currentVideo = videoLinks[activeIdx] || videoLinks[0];
   const embedUrl = getVideoEmbedUrl(currentVideo.url);
+  const hasPlaylist = videoLinks.length > 1;
 
   return (
     <div className="menu-page__video-viewer">
       <div className="menu-page__video-viewer-header">
         <span className="menu-page__notice-label">Material Audiovisual</span>
-        <h3>Videos Informativos y de Bienvenida</h3>
+        <h3>
+          {isAdmisiones ? 'Videos Informativos y de Bienvenida' : (currentVideo.label || 'Video Informativo')}
+        </h3>
       </div>
       
-      <div className="menu-page__video-player-container">
+      <div className={`menu-page__video-player-container ${hasPlaylist ? 'menu-page__video-player-container--with-playlist' : 'menu-page__video-player-container--single'}`}>
         {/* Main video player */}
         <div className="menu-page__video-main">
           {embedUrl ? (
@@ -340,7 +472,7 @@ function VideoSection({ videoLinks }) {
         </div>
 
         {/* Playlist selection menu */}
-        {videoLinks.length > 1 && (
+        {hasPlaylist && (
           <div className="menu-page__video-playlist">
             <span className="menu-page__playlist-title">Videos Disponibles</span>
             <div className="menu-page__playlist-items">
