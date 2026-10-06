@@ -177,25 +177,26 @@ class PaginaLayoutBuilder
     }
 
     /**
-     * Genera el HTML para la página de Símbolos (Himno, Mascota, etc.).
+     * Genera el HTML para la página de Símbolos (Himno, Escudo, Bandera, Lema).
      */
     public static function buildSimbolos(array $data): string
     {
-        $imgSrc = self::resolveImgUrl($data['imagen'] ?? null, '/himno.jpg');
-        $titulo = htmlspecialchars($data['titulo'] ?? 'Himno del Colegio', ENT_QUOTES, 'UTF-8');
-        $meta = htmlspecialchars($data['meta'] ?? 'Letra: Hermana Margarita de la Encarnación / Música: Antonio Fortich', ENT_QUOTES, 'UTF-8');
-        $coro = $data['coro'] ?? '';
-        $estrofas = $data['estrofas'] ?? [];
+        // 1. HIMNO
+        $himnoImg = self::resolveImgUrl($data['himno_imagen'] ?? $data['imagen'] ?? null, '/himno.jpg');
+        $himnoTitulo = htmlspecialchars($data['himno_titulo'] ?? $data['titulo'] ?? 'Himno del Colegio', ENT_QUOTES, 'UTF-8');
+        $himnoMeta = htmlspecialchars($data['himno_meta'] ?? $data['meta'] ?? 'Letra: Hermana Margarita de la Encarnación / Música: Antonio Fortich', ENT_QUOTES, 'UTF-8');
+        $coro = $data['himno_coro'] ?? $data['coro'] ?? '';
+        $estrofas = $data['himno_estrofas'] ?? $data['estrofas'] ?? [];
 
         $html = '<div class="simbolos-container">' . PHP_EOL;
         $html .= '    <section class="simbolo-section himno-section">' . PHP_EOL;
         $html .= '        <div class="simbolo-grid">' . PHP_EOL;
         $html .= '            <div class="simbolo-img-container">' . PHP_EOL;
-        $html .= '                <img src="' . htmlspecialchars($imgSrc, ENT_QUOTES, 'UTF-8') . '" alt="' . $titulo . '" class="simbolo-img" />' . PHP_EOL;
+        $html .= '                <img src="' . htmlspecialchars($himnoImg, ENT_QUOTES, 'UTF-8') . '" alt="' . $himnoTitulo . '" class="simbolo-img" />' . PHP_EOL;
         $html .= '            </div>' . PHP_EOL;
         $html .= '            <div class="simbolo-text-container">' . PHP_EOL;
-        $html .= '                <h3>' . $titulo . '</h3>' . PHP_EOL;
-        $html .= '                <span class="simbolo-meta">' . $meta . '</span>' . PHP_EOL;
+        $html .= '                <h3>' . $himnoTitulo . '</h3>' . PHP_EOL;
+        $html .= '                <span class="simbolo-meta">' . $himnoMeta . '</span>' . PHP_EOL;
 
         $html .= '                <div class="himno-box">' . PHP_EOL;
         $html .= '                    <div class="himno-lyrics">' . PHP_EOL;
@@ -216,6 +217,91 @@ class PaginaLayoutBuilder
         $html .= '                    </div>' . PHP_EOL;
         $html .= '                </div>' . PHP_EOL;
         $html .= '            </div>' . PHP_EOL;
+        $html .= '        </div>' . PHP_EOL;
+        $html .= '    </section>' . PHP_EOL;
+
+        // 2. ESCUDO
+        $escudoImg = self::resolveImgUrl($data['escudo_imagen'] ?? null, '/escudo.jpg');
+        $escudoTitulo = htmlspecialchars($data['escudo_titulo'] ?? 'El Escudo', ENT_QUOTES, 'UTF-8');
+        $escudoDesc = $data['escudo_descripcion'] ?? "El escudo del colegio de la Presentación consta de un sello con fondo azul. Esculpida en él una pequeña abeja dorada, enmarcada en una decena del santo rosario.\n\nEl fondo azul simboliza para los estudiantes de la Presentación la armonía de la sencillez de su vida. La pequeña abeja dorada es el símbolo del trabajo constante y discreto, constructor y de hondo sentido social. El trabajo tiene un valor trascendente cuando se proyecta a la sociedad y al entorno inmediato, haciéndose todo por amor e identificación evangélica con el servicio.\n\nEl rosario que enmarca el sello representa la piedad constante que debe inspirar la vida de un estudiante Presentación, demostrando que su fe tiene profundas e ineludibles implicaciones sociales.";
+
+        $html .= '    <hr class="simbolo-divider" />' . PHP_EOL;
+        $html .= '    <section class="simbolo-section escudo-section">' . PHP_EOL;
+        $html .= '        <div class="simbolo-grid">' . PHP_EOL;
+        $html .= '            <div class="simbolo-img-container">' . PHP_EOL;
+        $html .= '                <img src="' . htmlspecialchars($escudoImg, ENT_QUOTES, 'UTF-8') . '" alt="' . $escudoTitulo . '" class="simbolo-img" />' . PHP_EOL;
+        $html .= '            </div>' . PHP_EOL;
+        $html .= '            <div class="simbolo-text-container">' . PHP_EOL;
+        $html .= '                <h3>' . $escudoTitulo . '</h3>' . PHP_EOL;
+        if (!str_contains($escudoDesc, '<p>')) {
+            $escudoParagraphs = array_filter(array_map('trim', explode("\n", $escudoDesc)));
+            foreach ($escudoParagraphs as $ep) {
+                $html .= '                <p>' . htmlspecialchars($ep, ENT_QUOTES, 'UTF-8') . '</p>' . PHP_EOL;
+            }
+        } else {
+            $html .= '                ' . trim($escudoDesc) . PHP_EOL;
+        }
+        $html .= '            </div>' . PHP_EOL;
+        $html .= '        </div>' . PHP_EOL;
+        $html .= '    </section>' . PHP_EOL;
+
+        // 3. BANDERA
+        $banderaImg = self::resolveImgUrl($data['bandera_imagen'] ?? null, '/bandera.jpg');
+        $banderaTitulo = htmlspecialchars($data['bandera_titulo'] ?? 'La Bandera', ENT_QUOTES, 'UTF-8');
+        $banderaDesc = $data['bandera_descripcion'] ?? "La Bandera del colegio de la Presentación está conformada por una franja blanca y una franja azul rey, colocadas en forma horizontal, simbolizando la pureza de vida, la sencillez y la armonía.\n\nEl color blanco encarna la pureza e integridad moral que debe adornar a todo estudiante Presentación, y el color azul simboliza la sencillez virtuosa que les caracteriza. Vivenciar estas virtudes permite alcanzar el equilibrio e integrar razones morales que persigan permanentemente lo bueno, bello, verdadero y digno en la existencia humana.";
+
+        $html .= '    <hr class="simbolo-divider" />' . PHP_EOL;
+        $html .= '    <section class="simbolo-section bandera-section">' . PHP_EOL;
+        $html .= '        <div class="simbolo-grid">' . PHP_EOL;
+        $html .= '            <div class="simbolo-img-container">' . PHP_EOL;
+        $html .= '                <img src="' . htmlspecialchars($banderaImg, ENT_QUOTES, 'UTF-8') . '" alt="' . $banderaTitulo . '" class="simbolo-img" />' . PHP_EOL;
+        $html .= '            </div>' . PHP_EOL;
+        $html .= '            <div class="simbolo-text-container">' . PHP_EOL;
+        $html .= '                <h3>' . $banderaTitulo . '</h3>' . PHP_EOL;
+        if (!str_contains($banderaDesc, '<p>')) {
+            $banderaParagraphs = array_filter(array_map('trim', explode("\n", $banderaDesc)));
+            foreach ($banderaParagraphs as $bp) {
+                $html .= '                <p>' . htmlspecialchars($bp, ENT_QUOTES, 'UTF-8') . '</p>' . PHP_EOL;
+            }
+        } else {
+            $html .= '                ' . trim($banderaDesc) . PHP_EOL;
+        }
+        $html .= '            </div>' . PHP_EOL;
+        $html .= '        </div>' . PHP_EOL;
+        $html .= '    </section>' . PHP_EOL;
+
+        // 4. LEMA
+        $lemaTitulo = htmlspecialchars($data['lema_titulo'] ?? 'Nuestro Lema: Piedad, Sencillez y Trabajo', ENT_QUOTES, 'UTF-8');
+        $lemaPiedad = htmlspecialchars($data['lema_piedad'] ?? 'La virtud que permite descubrir la presencia viva de Dios. Inspira la relación espiritual personal y fomenta el compromiso social a través de la solidaridad, la justicia activa y la búsqueda incesante de la paz colectiva.', ENT_QUOTES, 'UTF-8');
+        $lemaSencillez = htmlspecialchars($data['lema_sencillez'] ?? 'La virtud de la transparencia, rectitud, honestidad y coherencia. Permite reconocer los propios dones y ponerlos desinteresadamente al servicio del prójimo con respeto y profundos buenos modales.', ENT_QUOTES, 'UTF-8');
+        $lemaTrabajo = htmlspecialchars($data['lema_trabajo'] ?? 'La virtud redentora y transformadora que potencia los talentos en favor del bien común. Representa el sentido de responsabilidad, la creatividad permanente y el deseo noble de edificar una sociedad mejor.', ENT_QUOTES, 'UTF-8');
+
+        $html .= '    <hr class="simbolo-divider" />' . PHP_EOL;
+        $html .= '    <section class="simbolo-section lema-section">' . PHP_EOL;
+        $html .= '        <h3>' . $lemaTitulo . '</h3>' . PHP_EOL;
+        $html .= '        <div class="lema-grid">' . PHP_EOL;
+
+        $html .= '            <div class="lema-card">' . PHP_EOL;
+        $html .= '                <div class="lema-card__header lema-card__header--piedad">PIEDAD</div>' . PHP_EOL;
+        $html .= '                <div class="lema-card__body">' . PHP_EOL;
+        $html .= '                    <p>' . $lemaPiedad . '</p>' . PHP_EOL;
+        $html .= '                </div>' . PHP_EOL;
+        $html .= '            </div>' . PHP_EOL;
+
+        $html .= '            <div class="lema-card">' . PHP_EOL;
+        $html .= '                <div class="lema-card__header lema-card__header--sencillez">SENCILLEZ</div>' . PHP_EOL;
+        $html .= '                <div class="lema-card__body">' . PHP_EOL;
+        $html .= '                    <p>' . $lemaSencillez . '</p>' . PHP_EOL;
+        $html .= '                </div>' . PHP_EOL;
+        $html .= '            </div>' . PHP_EOL;
+
+        $html .= '            <div class="lema-card">' . PHP_EOL;
+        $html .= '                <div class="lema-card__header lema-card__header--trabajo">TRABAJO</div>' . PHP_EOL;
+        $html .= '                <div class="lema-card__body">' . PHP_EOL;
+        $html .= '                    <p>' . $lemaTrabajo . '</p>' . PHP_EOL;
+        $html .= '                </div>' . PHP_EOL;
+        $html .= '            </div>' . PHP_EOL;
+
         $html .= '        </div>' . PHP_EOL;
         $html .= '    </section>' . PHP_EOL;
         $html .= '</div>';

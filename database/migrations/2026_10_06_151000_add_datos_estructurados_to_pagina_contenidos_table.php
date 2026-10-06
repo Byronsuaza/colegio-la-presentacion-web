@@ -84,18 +84,36 @@ return new class extends Migration
 
         \Illuminate\Support\Facades\DB::table('pagina_contenidos')->where('slug', 'simbolos')->update([
             'datos_estructurados' => json_encode([
-                'imagen' => 'paginas/himno.jpg',
-                'titulo' => 'Himno del Colegio',
-                'meta' => 'Letra: Hermana Margarita de la Encarnación / Música: Antonio Fortich',
-                'coro' => "En espíritu todos unidos\nEn abrazo fraterno de amor\nFresca savia de tronco robusto\nSueño azul de la Presentación.",
-                'estrofas' => [
+                // 1. HIMNO
+                'himno_imagen' => 'paginas/himno.jpg',
+                'himno_titulo' => 'Himno del Colegio',
+                'himno_meta' => 'Letra: Hermana Margarita de la Encarnación / Música: Antonio Fortich',
+                'himno_coro' => "En espíritu todos unidos\nEn abrazo fraterno de amor\nFresca savia de tronco robusto\nSueño azul de la Presentación.",
+                'himno_estrofas' => [
                     ['numero' => 'I Estrofa', 'texto' => "De ideales conquista gloriosa\nCodiciándola está el corazón\nCual cosecha de estrellas fulgentes\nY trigales en constelación."],
                     ['numero' => 'II Estrofa', 'texto' => "Nuestras almas cual linfas bullentes\nSean cáliz de todo sabor,\nRitmo alegre y eterno que late\nAl latir de la Presentación."],
                     ['numero' => 'III Estrofa', 'texto' => "Juventud, animad vuestro brazo\nVuestro pecho se enciende en ardor\nY marchemos las manos unidos\nComo hermana y hermano hasta Dios."],
                     ['numero' => 'IV Estrofa', 'texto' => "En panales de amor libar puedan\nCorazones, piedad y virtud,\nCuando posen su planta en el mundo\nEn sus huellas florezca la luz."],
                     ['numero' => 'V Estrofa', 'texto' => "Todo alumno entronice en su vida\nEsta sola palabra ¡verdad!,\nSencillez el crisol de sus obras\nY el camino de su integridad."],
                     ['numero' => 'VI Estrofa', 'texto' => "Del deber en el yunque sagrado\nEl trabajo también redentor\nPueda hacer nuestra vida fecunda\nPara darla y servir la hizo Dios."],
+                    ['numero' => 'VII Estrofa', 'texto' => "Tras las huellas que suben al templo\nColoquemos del alma una flor,\nElla es guía, modelo y ejemplo\nY tras ella la Presentación."],
                 ],
+
+                // 2. ESCUDO
+                'escudo_imagen' => 'paginas/escudo.jpg',
+                'escudo_titulo' => 'El Escudo',
+                'escudo_descripcion' => "El escudo del colegio de la Presentación consta de un sello con fondo azul. Esculpida en él una pequeña abeja dorada, enmarcada en una decena del santo rosario.\n\nEl fondo azul simboliza para los estudiantes de la Presentación la armonía de la sencillez de su vida. La pequeña abeja dorada es el símbolo del trabajo constante y discreto, constructor y de hondo sentido social. El trabajo tiene un valor trascendente cuando se proyecta a la sociedad y al entorno inmediato, haciéndose todo por amor e identificación evangélica con el servicio.\n\nEl rosario que enmarca el sello representa la piedad constante que debe inspirar la vida de un estudiante Presentación, demostrando que su fe tiene profundas e ineludibles implicaciones sociales.",
+
+                // 3. BANDERA
+                'bandera_imagen' => 'paginas/bandera.jpg',
+                'bandera_titulo' => 'La Bandera',
+                'bandera_descripcion' => "La Bandera del colegio de la Presentación está conformada por una franja blanca y una franja azul rey, colocadas en forma horizontal, simbolizando la pureza de vida, la sencillez y la armonía.\n\nEl color blanco encarna la pureza e integridad moral que debe adornar a todo estudiante Presentación, y el color azul simboliza la sencillez virtuosa que les caracteriza. Vivenciar estas virtudes permite alcanzar el equilibrio e integrar razones morales que persigan permanentemente lo bueno, bello, verdadero y digno en la existencia humana.",
+
+                // 4. LEMA
+                'lema_titulo' => 'Nuestro Lema: Piedad, Sencillez y Trabajo',
+                'lema_piedad' => 'La virtud que permite descubrir la presencia viva de Dios. Inspira la relación espiritual personal y fomenta el compromiso social a través de la solidaridad, la justicia activa y la búsqueda incesante de la paz colectiva.',
+                'lema_sencillez' => 'La virtud de la transparencia, rectitud, honestidad y coherencia. Permite reconocer los propios dones y ponerlos desinteresadamente al servicio del prójimo con respeto y profundos buenos modales.',
+                'lema_trabajo' => 'La virtud redentora y transformadora que potencia los talentos en favor del bien común. Representa el sentido de responsabilidad, la creatividad permanente y el deseo noble de edificar una sociedad mejor.',
             ]),
         ]);
     }

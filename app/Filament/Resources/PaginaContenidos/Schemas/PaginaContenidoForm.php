@@ -251,41 +251,117 @@ class PaginaContenidoForm
                                             ])
                                             ->columnSpanFull(),
 
-                                        // ── Símbolos (Himno, Mascota, Estrofas) ──
-                                        Grid::make(2)
+                                        // ── Símbolos (Himno, Escudo, Bandera, Lema) ──
+                                        Grid::make(1)
                                             ->visible(fn ($get) => $get('slug') === 'simbolos')
                                             ->schema([
-                                                ImageOptimizer::configure(FileUpload::make('datos_estructurados.imagen'), 'paginas')
-                                                    ->label('Foto Mascota / Partitura / Escudo')
-                                                    ->disk('public')
-                                                    ->image()
-                                                    ->imagePreviewHeight('180')
-                                                    ->columnSpanFull(),
-                                                TextInput::make('datos_estructurados.titulo')
-                                                    ->label('Título')
-                                                    ->placeholder('Himno del Colegio')
-                                                    ->columnSpan(1),
-                                                TextInput::make('datos_estructurados.meta')
-                                                    ->label('Autores (Letra y Música)')
-                                                    ->placeholder('Letra: ... / Música: ...')
-                                                    ->columnSpan(1),
-                                                Textarea::make('datos_estructurados.coro')
-                                                    ->label('Coro del Himno (Recuadro Dorado)')
-                                                    ->rows(4)
-                                                    ->columnSpanFull(),
-                                                Repeater::make('datos_estructurados.estrofas')
-                                                    ->label('Estrofas del Himno')
+                                                // 1. HIMNO
+                                                Section::make('1. Himno del Colegio')
+                                                    ->compact()
                                                     ->schema([
-                                                        TextInput::make('numero')
-                                                            ->label('Estrofa (ej: I Estrofa)')
-                                                            ->required(),
-                                                        Textarea::make('texto')
-                                                            ->label('Letra de la Estrofa')
-                                                            ->rows(3)
-                                                            ->required(),
+                                                        ImageOptimizer::configure(FileUpload::make('datos_estructurados.himno_imagen'), 'paginas')
+                                                            ->label('Foto Mascota / Partitura')
+                                                            ->disk('public')
+                                                            ->image()
+                                                            ->imagePreviewHeight('180')
+                                                            ->columnSpanFull(),
+                                                        TextInput::make('datos_estructurados.himno_titulo')
+                                                            ->label('Título')
+                                                            ->placeholder('Himno del Colegio')
+                                                            ->default('Himno del Colegio')
+                                                            ->columnSpan(1),
+                                                        TextInput::make('datos_estructurados.himno_meta')
+                                                            ->label('Autores (Letra y Música)')
+                                                            ->placeholder('Letra: Hermana Margarita de la Encarnación / Música: Antonio Fortich')
+                                                            ->columnSpan(1),
+                                                        Textarea::make('datos_estructurados.himno_coro')
+                                                            ->label('Coro del Himno (Caja Dorada)')
+                                                            ->rows(4)
+                                                            ->columnSpanFull(),
+                                                        Repeater::make('datos_estructurados.himno_estrofas')
+                                                            ->label('Estrofas del Himno')
+                                                            ->schema([
+                                                                TextInput::make('numero')
+                                                                    ->label('Estrofa (ej: I Estrofa)')
+                                                                    ->required(),
+                                                                Textarea::make('texto')
+                                                                    ->label('Letra de la Estrofa')
+                                                                    ->rows(3)
+                                                                    ->required(),
+                                                            ])
+                                                            ->columns(2)
+                                                            ->collapsible()
+                                                            ->columnSpanFull(),
                                                     ])
                                                     ->columns(2)
-                                                    ->collapsible()
+                                                    ->columnSpanFull(),
+
+                                                // 2. ESCUDO
+                                                Section::make('2. El Escudo')
+                                                    ->compact()
+                                                    ->schema([
+                                                        ImageOptimizer::configure(FileUpload::make('datos_estructurados.escudo_imagen'), 'paginas')
+                                                            ->label('Foto del Escudo')
+                                                            ->disk('public')
+                                                            ->image()
+                                                            ->imagePreviewHeight('180')
+                                                            ->columnSpanFull(),
+                                                        TextInput::make('datos_estructurados.escudo_titulo')
+                                                            ->label('Título')
+                                                            ->placeholder('El Escudo')
+                                                            ->default('El Escudo')
+                                                            ->columnSpanFull(),
+                                                        Textarea::make('datos_estructurados.escudo_descripcion')
+                                                            ->label('Significado y Descripción del Escudo')
+                                                            ->rows(5)
+                                                            ->columnSpanFull(),
+                                                    ])
+                                                    ->columnSpanFull(),
+
+                                                // 3. BANDERA
+                                                Section::make('3. La Bandera')
+                                                    ->compact()
+                                                    ->schema([
+                                                        ImageOptimizer::configure(FileUpload::make('datos_estructurados.bandera_imagen'), 'paginas')
+                                                            ->label('Foto de la Bandera')
+                                                            ->disk('public')
+                                                            ->image()
+                                                            ->imagePreviewHeight('180')
+                                                            ->columnSpanFull(),
+                                                        TextInput::make('datos_estructurados.bandera_titulo')
+                                                            ->label('Título')
+                                                            ->placeholder('La Bandera')
+                                                            ->default('La Bandera')
+                                                            ->columnSpanFull(),
+                                                        Textarea::make('datos_estructurados.bandera_descripcion')
+                                                            ->label('Significado y Descripción de la Bandera')
+                                                            ->rows(5)
+                                                            ->columnSpanFull(),
+                                                    ])
+                                                    ->columnSpanFull(),
+
+                                                // 4. LEMA
+                                                Section::make('4. Nuestro Lema')
+                                                    ->compact()
+                                                    ->schema([
+                                                        TextInput::make('datos_estructurados.lema_titulo')
+                                                            ->label('Título de la Sección del Lema')
+                                                            ->placeholder('Nuestro Lema: Piedad, Sencillez y Trabajo')
+                                                            ->default('Nuestro Lema: Piedad, Sencillez y Trabajo')
+                                                            ->columnSpanFull(),
+                                                        Textarea::make('datos_estructurados.lema_piedad')
+                                                            ->label('Piedad (Definición)')
+                                                            ->rows(3)
+                                                            ->columnSpanFull(),
+                                                        Textarea::make('datos_estructurados.lema_sencillez')
+                                                            ->label('Sencillez (Definición)')
+                                                            ->rows(3)
+                                                            ->columnSpanFull(),
+                                                        Textarea::make('datos_estructurados.lema_trabajo')
+                                                            ->label('Trabajo (Definición)')
+                                                            ->rows(3)
+                                                            ->columnSpanFull(),
+                                                    ])
                                                     ->columnSpanFull(),
                                             ])
                                             ->columnSpanFull(),
