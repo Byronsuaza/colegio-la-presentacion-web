@@ -35,6 +35,10 @@ class AjusteGeneral extends Model
         'pruebas_diagnosticas_password',
     ];
 
+    protected $casts = [
+        'popup_habilitado' => 'boolean',
+    ];
+
     /**
      * Obtiene o crea el registro único de ajustes.
      */

@@ -3,8 +3,8 @@ import './ComunidadEventos.css';
 
 import { parseDate } from '../utils/date';
 
-function getCanvaUrls(rawUrl) {
-  if (!rawUrl) return { embedUrl: '', directUrl: '' };
+function parseEmbedResource(rawUrl) {
+  if (!rawUrl) return { embedUrl: '', directUrl: '', type: null, buttonText: '', title: '' };
 
   let url = rawUrl.trim();
 
@@ -14,6 +14,54 @@ function getCanvaUrls(rawUrl) {
     url = srcMatch[1];
   }
 
+  // 1. Detección de YouTube (watch, youtu.be, shorts, embed, live)
+  if (url.includes('youtube.com') || url.includes('youtu.be')) {
+    let videoId = '';
+
+    // youtu.be/VIDEO_ID
+    if (url.includes('youtu.be/')) {
+      const parts = url.split('youtu.be/')[1];
+      videoId = parts?.split('?')[0]?.split('/')[0] || '';
+    }
+    // youtube.com/shorts/VIDEO_ID
+    else if (url.includes('/shorts/')) {
+      const parts = url.split('/shorts/')[1];
+      videoId = parts?.split('?')[0]?.split('/')[0] || '';
+    }
+    // youtube.com/embed/VIDEO_ID
+    else if (url.includes('/embed/')) {
+      const parts = url.split('/embed/')[1];
+      videoId = parts?.split('?')[0]?.split('/')[0] || '';
+    }
+    // youtube.com/live/VIDEO_ID
+    else if (url.includes('/live/')) {
+      const parts = url.split('/live/')[1];
+      videoId = parts?.split('?')[0]?.split('/')[0] || '';
+    }
+    // youtube.com/watch?v=VIDEO_ID
+    else if (url.includes('watch')) {
+      try {
+        const fullUrl = url.startsWith('http') ? url : `https://${url}`;
+        const urlObj = new URL(fullUrl);
+        videoId = urlObj.searchParams.get('v') || '';
+      } catch (e) {
+        const match = url.match(/[?&]v=([^&#]+)/);
+        if (match) videoId = match[1];
+      }
+    }
+
+    if (videoId) {
+      return {
+        embedUrl: `https://www.youtube.com/embed/${videoId}?rel=0`,
+        directUrl: `https://www.youtube.com/watch?v=${videoId}`,
+        type: 'youtube',
+        buttonText: 'Ver en YouTube',
+        title: 'Evangelio de la Semana - Video de YouTube',
+      };
+    }
+  }
+
+  // 2. Detección de Canva
   if (url.includes('canva.com')) {
     // Si viene con /edit, cambiar a /view
     url = url.replace(/\/edit(\?.*)?$/i, '/view');
@@ -28,14 +76,27 @@ function getCanvaUrls(rawUrl) {
       embedUrl = `${embedUrl}${sep}embed`;
     }
 
-    return { embedUrl, directUrl };
+    return {
+      embedUrl,
+      directUrl,
+      type: 'canva',
+      buttonText: 'Ver presentación en Canva',
+      title: 'Evangelio de la Semana - Presentación Canva',
+    };
   }
 
-  return { embedUrl: url, directUrl: url };
+  // 3. Fallback genérico
+  return {
+    embedUrl: url,
+    directUrl: url,
+    type: 'generic',
+    buttonText: 'Abrir enlace',
+    title: 'Evangelio de la Semana',
+  };
 }
 
 export default function ComunidadEventos({ eventos = [], ajustes = {} }) {
-  const { embedUrl, directUrl } = getCanvaUrls(ajustes?.evangelio_embed_url);
+  const { embedUrl, directUrl, type, buttonText, title } = parseEmbedResource(ajustes?.evangelio_embed_url);
 
   return (
     <section className="comunidad-eventos section" id="comunidad-eventos">
@@ -59,11 +120,11 @@ export default function ComunidadEventos({ eventos = [], ajustes = {} }) {
                   <div className="comunidad-eventos__pastoral-iframe-container">
                     <iframe
                       loading="lazy"
-                      title="Evangelio de la Semana - Canva Presentation"
+                      title={title || 'Evangelio de la Semana'}
                       className="comunidad-eventos__pastoral-iframe"
                       src={embedUrl}
                       allowFullScreen
-                      allow="fullscreen"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
                     />
                   </div>
                   {directUrl && (
@@ -73,14 +134,20 @@ export default function ComunidadEventos({ eventos = [], ajustes = {} }) {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="comunidad-eventos__canva-btn"
-                        title="Abrir presentación en Canva"
+                        title={buttonText}
                       >
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                          <polyline points="15 3 21 3 21 9"></polyline>
-                          <line x1="10" y1="14" x2="21" y2="3"></line>
-                        </svg>
-                        Ver presentación completa
+                        {type === 'youtube' ? (
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                          </svg>
+                        ) : (
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                            <polyline points="15 3 21 3 21 9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
+                          </svg>
+                        )}
+                        {buttonText}
                       </a>
                     </div>
                   )}

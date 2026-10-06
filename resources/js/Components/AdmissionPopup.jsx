@@ -8,7 +8,14 @@ export default function AdmissionPopup({ ajustes = {} }) {
   const admissionsUrl = ajustes?.popup_button_url || '/admisiones/inscripcion-en-linea';
   const buttonText = ajustes?.popup_button_text || 'Más información';
 
-  if (ajustes?.popup_habilitado === false) {
+  const isPopupEnabled = !(
+    ajustes?.popup_habilitado === false ||
+    ajustes?.popup_habilitado === 0 ||
+    ajustes?.popup_habilitado === '0' ||
+    ajustes?.popup_habilitado === null
+  );
+
+  if (!isPopupEnabled) {
     return null;
   }
 

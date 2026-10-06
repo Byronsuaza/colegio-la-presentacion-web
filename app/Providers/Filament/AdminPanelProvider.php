@@ -26,7 +26,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin')
+            ->path('u53r-l0g0n')
             ->login()
             ->passwordReset()
             ->brandName('Panel Administrador - Colegio La Presentación')

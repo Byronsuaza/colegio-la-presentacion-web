@@ -121,7 +121,9 @@ class AjusteGeneralForm
                                 TextInput::make('evangelio_embed_url')
                                     ->url()
                                     ->columnSpanFull()
-                                    ->label('Enlace de presentación de Canva'),
+                                    ->label('Enlace de Canva o video de YouTube')
+                                    ->placeholder('https://www.youtube.com/watch?v=... o https://www.canva.com/design/...')
+                                    ->helperText('Pega un enlace de Canva (presentación) o un enlace de YouTube (video, short o compartido). El sistema lo adaptará automáticamente.'),
                             ]),
 
                         Section::make('Pagos y Plataformas')

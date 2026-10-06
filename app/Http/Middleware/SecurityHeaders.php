@@ -22,7 +22,7 @@ class SecurityHeaders
                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " .
                "font-src 'self' https://fonts.gstatic.com data:; " .
                "img-src 'self' data: https: blob:; " .
-               "frame-src 'self' https://challenges.cloudflare.com https://www.google.com https://www.youtube.com https://*.canva.com https://canva.com https://*.canva.cn; " .
+               "frame-src 'self' https://challenges.cloudflare.com https://www.google.com https://www.youtube.com https://youtube.com https://*.youtube.com https://www.youtube-nocookie.com https://*.canva.com https://canva.com https://*.canva.cn; " .
                "connect-src 'self' https://challenges.cloudflare.com; " .
                "object-src 'none'; " .
                "base-uri 'self';";
