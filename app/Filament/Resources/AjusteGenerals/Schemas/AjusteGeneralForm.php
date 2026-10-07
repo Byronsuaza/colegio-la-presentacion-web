@@ -265,7 +265,7 @@ class AjusteGeneralForm
 
                 // ── Fila 6: Pie de Página (Footer) ──
                 Section::make('Pie de Página (Footer)')
-                    ->description('Textos institucionales ubicados en la parte inferior de todas las páginas.')
+                    ->description('Textos institucionales y sellos de calidad en el pie de página.')
                     ->compact()
                     ->schema([
                         TextInput::make('footer_anio_fundacion')
@@ -274,6 +274,37 @@ class AjusteGeneralForm
                         TextInput::make('footer_lema')
                             ->label('Lema o Frase Institucional')
                             ->placeholder('inspiradas en el carisma de Marie Poussepin.'),
+                        Repeater::make('footer_certificaciones')
+                            ->label('Sellos de Certificación (Icontec / IQNet)')
+                            ->schema([
+                                \App\Support\ImageOptimizer::configure(FileUpload::make('imagen'), 'certificaciones')
+                                    ->label('Logo o Sello')
+                                    ->disk('public')
+                                    ->image()
+                                    ->imagePreviewHeight('90')
+                                    ->required()
+                                    ->columnSpan(1),
+                                Grid::make(1)
+                                    ->schema([
+                                        TextInput::make('titulo')
+                                            ->label('Título / Tooltip')
+                                            ->placeholder('Ej: Certificación Icontec ISO 21001 e IQNet'),
+                                        TextInput::make('alt')
+                                            ->label('Texto alternativo (Alt)')
+                                            ->placeholder('Ej: Icontec ISO 21001'),
+                                        TextInput::make('url')
+                                            ->label('Enlace al certificado oficial (Opcional)')
+                                            ->url()
+                                            ->placeholder('https://...'),
+                                    ])
+                                    ->columnSpan(1),
+                            ])
+                            ->columns(2)
+                            ->collapsible()
+                            ->itemLabel(fn (array $state): ?string => $state['titulo'] ?? $state['alt'] ?? 'Sello de Certificación')
+                            ->addActionLabel('Agregar sello de certificación')
+                            ->columnSpanFull()
+                            ->helperText('Puedes cambiar las fotos de Icontec, subir nuevos sellos o enlazar cada uno a su certificado en PDF o web.'),
                     ])
                     ->columns(2)
                     ->columnSpanFull(),

@@ -45,6 +45,7 @@ class AjusteGeneral extends Model
         'oferta_niveles',
         'footer_anio_fundacion',
         'footer_lema',
+        'footer_certificaciones',
     ];
 
     protected $casts = [
@@ -53,6 +54,7 @@ class AjusteGeneral extends Model
         'admisiones_tags' => 'array',
         'valor_pilares' => 'array',
         'oferta_niveles' => 'array',
+        'footer_certificaciones' => 'array',
     ];
 
     /**

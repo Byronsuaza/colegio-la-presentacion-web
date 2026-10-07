@@ -1,5 +1,19 @@
 import './Footer.css';
 import ColegiosProvincia from './ColegiosProvincia';
+import { storageUrl } from '../utils/url';
+
+const defaultCertificaciones = [
+  {
+    imagen: '/images/certificaciones/icontec-iqnet.png',
+    titulo: 'Certificación Icontec ISO 21001 e IQNet - SGOE-CER950417',
+    alt: 'Certificación Icontec ISO 21001 e IQNet',
+  },
+  {
+    imagen: '/images/certificaciones/icontec-iso9001.png',
+    titulo: 'Certificación Icontec ISO 9001',
+    alt: 'Certificación Icontec ISO 9001',
+  },
+];
 
 const socialLinks = [
   {
@@ -74,6 +88,12 @@ export default function Footer({ ajustes, mostrarProvincia = true }) {
     return link;
   });
 
+  // Dynamic certifications (Icontec, IQNet, etc.)
+  const rawCertificaciones = ajustes?.footer_certificaciones;
+  const certificacionesList = Array.isArray(rawCertificaciones) && rawCertificaciones.length > 0
+    ? rawCertificaciones
+    : defaultCertificaciones;
+
   return (
     <footer className="footer" id="footer">
       {mostrarProvincia && <ColegiosProvincia />}
@@ -94,20 +114,45 @@ export default function Footer({ ajustes, mostrarProvincia = true }) {
             {ajustes?.footer_lema || 'inspiradas en el carisma de Marie Poussepin.'}
           </p>
 
-          <div className="footer__certifications">
-            <img
-              src="/images/certificaciones/icontec-iqnet.png"
-              alt="Certificación Icontec ISO 21001 e IQNet"
-              className="footer__cert-img"
-              title="Certificación Icontec ISO 21001 e IQNet - SGOE-CER950417"
-            />
-            <img
-              src="/images/certificaciones/icontec-iso9001.png"
-              alt="Certificación Icontec ISO 9001"
-              className="footer__cert-img"
-              title="Certificación Icontec ISO 9001"
-            />
-          </div>
+          {certificacionesList && certificacionesList.length > 0 && (
+            <div className="footer__certifications">
+              {certificacionesList.map((cert, index) => {
+                const src = storageUrl(cert.imagen) || cert.imagen;
+                if (!src) return null;
+                const altText = cert.alt || cert.titulo || 'Certificación Icontec';
+                const imgElement = (
+                  <img
+                    src={src}
+                    alt={altText}
+                    className="footer__cert-img"
+                    title={cert.titulo || altText}
+                    loading="lazy"
+                  />
+                );
+
+                if (cert.url) {
+                  return (
+                    <a
+                      key={index}
+                      href={cert.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="footer__cert-link"
+                      aria-label={cert.titulo || altText}
+                    >
+                      {imgElement}
+                    </a>
+                  );
+                }
+
+                return (
+                  <div key={index} className="footer__cert-wrapper">
+                    {imgElement}
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
           <div className="footer__social">
             {dynamicSocialLinks.map((s) => (
