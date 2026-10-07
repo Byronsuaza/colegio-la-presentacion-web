@@ -1,0 +1,141 @@
+{
+  "_Footer-!~{009}~.js": {
+    "file": "assets/Footer-DLjg-CP6.css",
+    "src": "_Footer-!~{009}~.js"
+  },
+  "_Footer-L1uSkOzG.js": {
+    "file": "assets/Footer-L1uSkOzG.js",
+    "name": "Footer",
+    "imports": [
+      "resources/js/app.jsx"
+    ],
+    "css": [
+      "assets/Footer-DLjg-CP6.css"
+    ]
+  },
+  "_NoticiaModal-!~{00a}~.js": {
+    "file": "assets/NoticiaModal-BlwVTC28.css",
+    "src": "_NoticiaModal-!~{00a}~.js"
+  },
+  "_NoticiaModal-C8cZ_n61.js": {
+    "file": "assets/NoticiaModal-C8cZ_n61.js",
+    "name": "NoticiaModal",
+    "imports": [
+      "resources/js/app.jsx",
+      "_sanitize-DqaJe5QM.js",
+      "_Footer-L1uSkOzG.js"
+    ],
+    "css": [
+      "assets/NoticiaModal-BlwVTC28.css"
+    ]
+  },
+  "_sanitize-DqaJe5QM.js": {
+    "file": "assets/sanitize-DqaJe5QM.js",
+    "name": "sanitize"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-Bt3BVCko.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/Pages/EventosCalendario.jsx": {
+    "file": "assets/EventosCalendario-B6GJwO6Z.js",
+    "name": "EventosCalendario",
+    "src": "resources/js/Pages/EventosCalendario.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Footer-L1uSkOzG.js"
+    ],
+    "css": [
+      "assets/EventosCalendario-CecI29CH.css"
+    ]
+  },
+  "resources/js/Pages/Home.jsx": {
+    "file": "assets/Home-g83lGkwQ.js",
+    "name": "Home",
+    "src": "resources/js/Pages/Home.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Footer-L1uSkOzG.js",
+      "_NoticiaModal-C8cZ_n61.js",
+      "_sanitize-DqaJe5QM.js"
+    ],
+    "css": [
+      "assets/Home-C4yK89Qs.css"
+    ]
+  },
+  "resources/js/Pages/MenuPage.jsx": {
+    "file": "assets/MenuPage-cRx_xWb0.js",
+    "name": "MenuPage",
+    "src": "resources/js/Pages/MenuPage.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Footer-L1uSkOzG.js",
+      "_sanitize-DqaJe5QM.js"
+    ],
+    "css": [
+      "assets/MenuPage-B8NFLHnx.css"
+    ]
+  },
+  "resources/js/Pages/NoticiasTodas.jsx": {
+    "file": "assets/NoticiasTodas-CWaUNoIq.js",
+    "name": "NoticiasTodas",
+    "src": "resources/js/Pages/NoticiasTodas.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Footer-L1uSkOzG.js",
+      "_NoticiaModal-C8cZ_n61.js",
+      "_sanitize-DqaJe5QM.js"
+    ],
+    "css": [
+      "assets/NoticiasTodas-DSLrGnO5.css"
+    ]
+  },
+  "resources/js/Pages/PdfViewer.jsx": {
+    "file": "assets/PdfViewer-BCwLYZjX.js",
+    "name": "PdfViewer",
+    "src": "resources/js/Pages/PdfViewer.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Footer-L1uSkOzG.js"
+    ],
+    "css": [
+      "assets/PdfViewer-DQOnm4NL.css"
+    ]
+  },
+  "resources/js/Pages/SeccionDetalle.jsx": {
+    "file": "assets/SeccionDetalle-CBLa0McP.js",
+    "name": "SeccionDetalle",
+    "src": "resources/js/Pages/SeccionDetalle.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_Footer-L1uSkOzG.js"
+    ],
+    "css": [
+      "assets/SeccionDetalle-CIzeFXdP.css"
+    ]
+  },
+  "resources/js/app.jsx": {
+    "file": "assets/app-DgEQj0Xu.js",
+    "name": "app",
+    "src": "resources/js/app.jsx",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/Pages/EventosCalendario.jsx",
+      "resources/js/Pages/Home.jsx",
+      "resources/js/Pages/MenuPage.jsx",
+      "resources/js/Pages/NoticiasTodas.jsx",
+      "resources/js/Pages/PdfViewer.jsx",
+      "resources/js/Pages/SeccionDetalle.jsx"
+    ],
+    "css": [
+      "assets/app-Bt3BVCko.css"
+    ]
+  }
+}
