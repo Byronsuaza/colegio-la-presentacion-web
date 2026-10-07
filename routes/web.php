@@ -42,3 +42,20 @@ Route::get('/pqrs/attachment/{submission}', [PqrsAttachmentController::class, 's
 Route::post('/api/pruebas-diagnosticas/verificar', [PruebasDiagnosticasController::class, 'verificar'])
     ->middleware('throttle:5,1')
     ->name('pruebas.verificar');
+
+// Fallback para servir archivos de storage si el enlace simbólico es bloqueado por el servidor web
+Route::get('/storage/{path}', function (string $path) {
+    $cleanPath = str_replace(['../', '..\\'], '', urldecode($path));
+    $filePath = storage_path('app/public/' . $cleanPath);
+
+    if (! file_exists($filePath) || is_dir($filePath)) {
+        abort(404);
+    }
+
+    $mimeType = @mime_content_type($filePath) ?: 'application/octet-stream';
+
+    return response()->file($filePath, [
+        'Content-Type' => $mimeType,
+        'Cache-Control' => 'public, max-age=31536000',
+    ]);
+})->where('path', '.*');
