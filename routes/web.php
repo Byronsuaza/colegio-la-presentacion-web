@@ -48,6 +48,21 @@ Route::get('/storage/{path}', function (string $path) {
     $cleanPath = str_replace(['../', '..\\'], '', urldecode($path));
     $filePath = storage_path('app/public/' . $cleanPath);
 
+    if (! file_exists($filePath)) {
+        // Intentar alternativas comunes (espacio vs guion bajo)
+        $altSpace = str_replace('hero slides', 'hero_slides', $cleanPath);
+        $altUnderscore = str_replace('hero_slides', 'hero slides', $cleanPath);
+
+        if (file_exists(storage_path('app/public/' . $altSpace))) {
+            $filePath = storage_path('app/public/' . $altSpace);
+        } elseif (file_exists(storage_path('app/public/' . $altUnderscore))) {
+            $filePath = storage_path('app/public/' . $altUnderscore);
+        } elseif (file_exists(public_path($cleanPath))) {
+            // Si el archivo está en public/ directamente (ej: hero.jpg, hero2.jpg)
+            $filePath = public_path($cleanPath);
+        }
+    }
+
     if (! file_exists($filePath) || is_dir($filePath)) {
         abort(404);
     }
