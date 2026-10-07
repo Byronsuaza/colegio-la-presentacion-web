@@ -14,6 +14,7 @@ class PaginaLayoutBuilder
             'rectora' => self::buildRectora($datos),
             'principios' => self::buildPrincipios($datos),
             'simbolos' => self::buildSimbolos($datos),
+            'recorrido-historico' => self::buildRecorridoHistorico($datos),
             default => null,
         };
     }
@@ -304,6 +305,64 @@ class PaginaLayoutBuilder
 
         $html .= '        </div>' . PHP_EOL;
         $html .= '    </section>' . PHP_EOL;
+        $html .= '</div>';
+
+        return $html;
+    }
+
+    /**
+     * Genera el HTML para la línea de tiempo de Recorrido Histórico.
+     */
+    public static function buildRecorridoHistorico(array $data): string
+    {
+        $intro = htmlspecialchars($data['intro'] ?? 'Explora el fascinante recorrido de nuestra historia a través de los tomos documentales oficiales cuidadosamente recopilados e indexados por la institución. Haz clic en los botones para abrir los documentos en PDF almacenados en Google Drive:', ENT_QUOTES, 'UTF-8');
+        $tomos = $data['tomos'] ?? [];
+
+        $html = '<div class="recorrido-container">' . PHP_EOL;
+        if ($intro) {
+            $html .= '    <p class="timeline-intro">' . $intro . '</p>' . PHP_EOL;
+        }
+
+        if (!empty($tomos)) {
+            $html .= '    <div class="timeline">' . PHP_EOL;
+            foreach ($tomos as $tomo) {
+                $badge = htmlspecialchars($tomo['badge'] ?? $tomo['anio'] ?? '', ENT_QUOTES, 'UTF-8');
+                $titulo = htmlspecialchars($tomo['titulo'] ?? '', ENT_QUOTES, 'UTF-8');
+                $era = htmlspecialchars($tomo['era'] ?? $tomo['periodo'] ?? '', ENT_QUOTES, 'UTF-8');
+                $desc = htmlspecialchars($tomo['descripcion'] ?? '', ENT_QUOTES, 'UTF-8');
+
+                $url = !empty($tomo['url_documento'])
+                    ? $tomo['url_documento']
+                    : (!empty($tomo['archivo_pdf']) ? self::resolveImgUrl($tomo['archivo_pdf']) : '');
+
+                $defaultBtnText = 'Abrir Tomo Histórico' . ($era ? ' ' . $era : ($badge ? ' ' . $badge : ''));
+                $btnTexto = htmlspecialchars(!empty($tomo['texto_boton']) ? $tomo['texto_boton'] : $defaultBtnText, ENT_QUOTES, 'UTF-8');
+
+                $html .= '        <div class="timeline-item">' . PHP_EOL;
+                $html .= '            <div class="timeline-badge">' . $badge . '</div>' . PHP_EOL;
+                $html .= '            <div class="timeline-panel">' . PHP_EOL;
+                $html .= '                <div class="timeline-heading">' . PHP_EOL;
+                $html .= '                    <h4>' . $titulo . '</h4>' . PHP_EOL;
+                if ($era) {
+                    $html .= '                    <span class="timeline-era">' . $era . '</span>' . PHP_EOL;
+                }
+                $html .= '                </div>' . PHP_EOL;
+                $html .= '                <div class="timeline-body">' . PHP_EOL;
+                if ($desc) {
+                    $html .= '                    <p>' . $desc . '</p>' . PHP_EOL;
+                }
+                if ($url) {
+                    $html .= '                    <a href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" target="_blank" rel="noopener noreferrer" class="timeline-btn">' . PHP_EOL;
+                    $html .= '                        <span class="timeline-btn-icon">📄</span> ' . $btnTexto . PHP_EOL;
+                    $html .= '                    </a>' . PHP_EOL;
+                }
+                $html .= '                </div>' . PHP_EOL;
+                $html .= '            </div>' . PHP_EOL;
+                $html .= '        </div>' . PHP_EOL;
+            }
+            $html .= '    </div>' . PHP_EOL;
+        }
+
         $html .= '</div>';
 
         return $html;

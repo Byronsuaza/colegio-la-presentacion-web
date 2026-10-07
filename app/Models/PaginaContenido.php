@@ -32,7 +32,7 @@ class PaginaContenido extends Model
     protected static function booted()
     {
         static::saving(function (PaginaContenido $page) {
-            if (!empty($page->datos_estructurados) && in_array($page->slug, ['mision', 'rectora', 'principios', 'simbolos'])) {
+            if (!empty($page->datos_estructurados) && in_array($page->slug, ['mision', 'rectora', 'principios', 'simbolos', 'recorrido-historico'])) {
                 $compiled = \App\Support\PaginaLayoutBuilder::buildHtml($page->slug, $page->datos_estructurados);
                 if ($compiled) {
                     $page->attributes['contenido'] = $compiled;

@@ -151,7 +151,7 @@ class PaginaContenidoForm
                                         RichEditor::make('contenido')
                                             ->columnSpanFull()
                                             ->label('Contenido de la página')
-                                            ->visible(fn ($get) => !in_array($get('slug'), ['mision', 'rectora', 'principios', 'simbolos'])),
+                                            ->visible(fn ($get) => !in_array($get('slug'), ['mision', 'rectora', 'principios', 'simbolos', 'recorrido-historico'])),
 
                                         // ── Misión (Diseño estructurado con tarjetas) ──
                                         Grid::make(1)
@@ -362,6 +362,65 @@ class PaginaContenidoForm
                                                             ->rows(3)
                                                             ->columnSpanFull(),
                                                     ])
+                                                    ->columnSpanFull(),
+                                            ])
+                                            ->columnSpanFull(),
+
+                                        // ── Recorrido Histórico (Línea de tiempo y tomos documentales) ──
+                                        Grid::make(1)
+                                            ->visible(fn ($get) => $get('slug') === 'recorrido-historico')
+                                            ->schema([
+                                                Textarea::make('datos_estructurados.intro')
+                                                    ->label('Texto Introductorio')
+                                                    ->helperText('Párrafo explicativo que aparece sobre la línea de tiempo.')
+                                                    ->rows(3)
+                                                    ->required(),
+                                                Repeater::make('datos_estructurados.tomos')
+                                                    ->label('Tomos Históricos / Hitos de la Línea de Tiempo')
+                                                    ->schema([
+                                                        TextInput::make('badge')
+                                                            ->label('Año o Insignia Circular')
+                                                            ->placeholder('Ej: 1882 o 2024')
+                                                            ->required()
+                                                            ->columnSpan(1),
+                                                        TextInput::make('era')
+                                                            ->label('Periodo o Subtítulo (Era)')
+                                                            ->placeholder('Ej: Año 1882 o 1892 - 1930')
+                                                            ->required()
+                                                            ->columnSpan(1),
+                                                        TextInput::make('titulo')
+                                                            ->label('Título del Tomo / Hito')
+                                                            ->placeholder('Ej: Fundación e Inicio')
+                                                            ->required()
+                                                            ->columnSpanFull(),
+                                                        Textarea::make('descripcion')
+                                                            ->label('Descripción / Resumen de los hechos')
+                                                            ->rows(3)
+                                                            ->required()
+                                                            ->columnSpanFull(),
+                                                        TextInput::make('url_documento')
+                                                            ->label('Enlace al Tomo en PDF (Google Drive o enlace web)')
+                                                            ->placeholder('https://drive.google.com/file/d/...')
+                                                            ->columnSpan(1),
+                                                        FileUpload::make('archivo_pdf')
+                                                            ->label('O subir archivo PDF local')
+                                                            ->disk('public')
+                                                            ->directory('tomos-historicos')
+                                                            ->acceptedFileTypes(['application/pdf'])
+                                                            ->columnSpan(1),
+                                                        TextInput::make('texto_boton')
+                                                            ->label('Texto del botón (Opcional)')
+                                                            ->placeholder('Ej: Abrir Tomo Histórico 1882')
+                                                            ->helperText('Si se deja vacío, se generará: "Abrir Tomo Histórico [Periodo]"')
+                                                            ->columnSpanFull(),
+                                                    ])
+                                                    ->columns(2)
+                                                    ->collapsible()
+                                                    ->collapsed()
+                                                    ->itemLabel(fn (array $state): ?string => (!empty($state['badge']) ? "[{$state['badge']}] " : '') . ($state['titulo'] ?? 'Tomo histórico'))
+                                                    ->addActionLabel('+ Agregar otro tomo histórico')
+                                                    ->reorderable()
+                                                    ->cloneable()
                                                     ->columnSpanFull(),
                                             ])
                                             ->columnSpanFull(),
