@@ -59,6 +59,7 @@ const getFooterLinks = (ajustes) => ({
     { label: 'Marie Poussepin', href: '/nuestra-institucion/marie-poussepin' },
     { label: 'Gobierno Escolar', href: '/nuestra-institucion/organizacion' },
     { label: 'Proyecto Educativo (PEI)', href: '/nuestra-institucion/pei-general' },
+    { label: 'Trabaja con Nosotros', href: '/comunicaciones-contacto/trabaja-con-nosotros' },
   ],
   educativa: [
     { label: 'Preescolar', href: '/nuestra-institucion/seccion-preescolar' },

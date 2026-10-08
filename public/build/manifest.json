@@ -3,8 +3,8 @@
     "file": "assets/Footer-DLjg-CP6.css",
     "src": "_Footer-!~{009}~.js"
   },
-  "_Footer-L1uSkOzG.js": {
-    "file": "assets/Footer-L1uSkOzG.js",
+  "_Footer-CYsCMgOc.js": {
+    "file": "assets/Footer-CYsCMgOc.js",
     "name": "Footer",
     "imports": [
       "resources/js/app.jsx"
@@ -17,13 +17,13 @@
     "file": "assets/NoticiaModal-BlwVTC28.css",
     "src": "_NoticiaModal-!~{00a}~.js"
   },
-  "_NoticiaModal-C8cZ_n61.js": {
-    "file": "assets/NoticiaModal-C8cZ_n61.js",
+  "_NoticiaModal-CYjpm8jn.js": {
+    "file": "assets/NoticiaModal-CYjpm8jn.js",
     "name": "NoticiaModal",
     "imports": [
       "resources/js/app.jsx",
       "_sanitize-DqaJe5QM.js",
-      "_Footer-L1uSkOzG.js"
+      "_Footer-CYsCMgOc.js"
     ],
     "css": [
       "assets/NoticiaModal-BlwVTC28.css"
@@ -34,32 +34,32 @@
     "name": "sanitize"
   },
   "resources/css/app.css": {
-    "file": "assets/app-Bt3BVCko.css",
+    "file": "assets/app-FBerI1Bg.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/Pages/EventosCalendario.jsx": {
-    "file": "assets/EventosCalendario-B6GJwO6Z.js",
+    "file": "assets/EventosCalendario-Ta-GYGbb.js",
     "name": "EventosCalendario",
     "src": "resources/js/Pages/EventosCalendario.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Footer-L1uSkOzG.js"
+      "_Footer-CYsCMgOc.js"
     ],
     "css": [
       "assets/EventosCalendario-CecI29CH.css"
     ]
   },
   "resources/js/Pages/Home.jsx": {
-    "file": "assets/Home-g83lGkwQ.js",
+    "file": "assets/Home-cT0hB_pi.js",
     "name": "Home",
     "src": "resources/js/Pages/Home.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Footer-L1uSkOzG.js",
-      "_NoticiaModal-C8cZ_n61.js",
+      "_Footer-CYsCMgOc.js",
+      "_NoticiaModal-CYjpm8jn.js",
       "_sanitize-DqaJe5QM.js"
     ],
     "css": [
@@ -67,13 +67,13 @@
     ]
   },
   "resources/js/Pages/MenuPage.jsx": {
-    "file": "assets/MenuPage-cRx_xWb0.js",
+    "file": "assets/MenuPage-BCbI4_9z.js",
     "name": "MenuPage",
     "src": "resources/js/Pages/MenuPage.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Footer-L1uSkOzG.js",
+      "_Footer-CYsCMgOc.js",
       "_sanitize-DqaJe5QM.js"
     ],
     "css": [
@@ -81,14 +81,14 @@
     ]
   },
   "resources/js/Pages/NoticiasTodas.jsx": {
-    "file": "assets/NoticiasTodas-CWaUNoIq.js",
+    "file": "assets/NoticiasTodas-BoDfebst.js",
     "name": "NoticiasTodas",
     "src": "resources/js/Pages/NoticiasTodas.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Footer-L1uSkOzG.js",
-      "_NoticiaModal-C8cZ_n61.js",
+      "_Footer-CYsCMgOc.js",
+      "_NoticiaModal-CYjpm8jn.js",
       "_sanitize-DqaJe5QM.js"
     ],
     "css": [
@@ -96,33 +96,33 @@
     ]
   },
   "resources/js/Pages/PdfViewer.jsx": {
-    "file": "assets/PdfViewer-BCwLYZjX.js",
+    "file": "assets/PdfViewer-BxAkga-F.js",
     "name": "PdfViewer",
     "src": "resources/js/Pages/PdfViewer.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Footer-L1uSkOzG.js"
+      "_Footer-CYsCMgOc.js"
     ],
     "css": [
       "assets/PdfViewer-DQOnm4NL.css"
     ]
   },
   "resources/js/Pages/SeccionDetalle.jsx": {
-    "file": "assets/SeccionDetalle-CBLa0McP.js",
+    "file": "assets/SeccionDetalle-7W2AVIwy.js",
     "name": "SeccionDetalle",
     "src": "resources/js/Pages/SeccionDetalle.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Footer-L1uSkOzG.js"
+      "_Footer-CYsCMgOc.js"
     ],
     "css": [
       "assets/SeccionDetalle-CIzeFXdP.css"
     ]
   },
   "resources/js/app.jsx": {
-    "file": "assets/app-DgEQj0Xu.js",
+    "file": "assets/app-BeZSqWwt.js",
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,
@@ -135,7 +135,7 @@
       "resources/js/Pages/SeccionDetalle.jsx"
     ],
     "css": [
-      "assets/app-Bt3BVCko.css"
+      "assets/app-FBerI1Bg.css"
     ]
   }
 }

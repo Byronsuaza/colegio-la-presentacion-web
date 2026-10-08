@@ -100,7 +100,7 @@ class MenuPages
                 'columns' => [
                     [
                         'title' => 'Comunicaciones',
-                        'slugs' => ['circulares', 'directorio-de-correos', 'pqrs', 'contactenos'],
+                        'slugs' => ['circulares', 'directorio-de-correos', 'pqrs', 'contactenos', 'trabaja-con-nosotros'],
                     ],
                 ],
             ],

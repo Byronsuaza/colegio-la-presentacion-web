@@ -4,6 +4,7 @@ import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import ComitesAcademicos from '../Components/ComitesAcademicos';
 import PqrsForm from '../Components/PqrsForm';
+import PostulacionForm from '../Components/PostulacionForm';
 import PruebasLock from '../Components/PruebasLock';
 import { SkeletonGalleryCard } from '../Components/Skeleton';
 import '../Components/Skeleton.css';
@@ -218,13 +219,17 @@ export default function MenuPage({ page, sectionPages = [], ajustes, galleryAlbu
                       className="menu-page__rich-text"
                       dangerouslySetInnerHTML={{ __html: sanitizeHtml(page.content) }}
                     />
-                  ) : (
+                  ) : page.slug !== 'trabaja-con-nosotros' ? (
                     <div className="menu-page__notice">
                       <span className="menu-page__notice-label">Estado</span>
                       <p>
                         Página creada y lista para cargar contenido desde el panel administrador.
                       </p>
                     </div>
+                  ) : null}
+
+                  {page.slug === 'trabaja-con-nosotros' && (
+                    <PostulacionForm vacantes={ajustes?.vacantes_disponibles} />
                   )}
 
                   {nonVideoLinks.length > 0 && (

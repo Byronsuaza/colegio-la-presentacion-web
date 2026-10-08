@@ -16,6 +16,8 @@ class AjusteGeneral extends Model
         'direccion',
         'email',
         'email_pqrs',
+        'email_talento_humano',
+        'vacantes_disponibles',
         'facebook',
         'instagram',
         'whatsapp',
@@ -55,6 +57,7 @@ class AjusteGeneral extends Model
         'valor_pilares' => 'array',
         'oferta_niveles' => 'array',
         'footer_certificaciones' => 'array',
+        'vacantes_disponibles' => 'array',
     ];
 
     /**

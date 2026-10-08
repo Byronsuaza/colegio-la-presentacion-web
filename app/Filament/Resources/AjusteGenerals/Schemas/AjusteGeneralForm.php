@@ -59,6 +59,26 @@ class AjusteGeneralForm
                     ])
                     ->columnSpanFull(),
 
+                // ── Talento Humano (Trabaja con Nosotros) ──
+                Section::make('Talento Humano · Trabaja con Nosotros')
+                    ->description('Configuración del formulario de postulación a vacantes.')
+                    ->compact()
+                    ->icon('heroicon-o-briefcase')
+                    ->schema([
+                        TextInput::make('email_talento_humano')
+                            ->label('Correo que recibe las postulaciones')
+                            ->helperText('A este correo llegarán las postulaciones con la hoja de vida adjunta.')
+                            ->placeholder('psicologa@colpresentacioneiva.edu.co')
+                            ->email()
+                            ->maxLength(255),
+                        TagsInput::make('vacantes_disponibles')
+                            ->label('Vacantes / cargos disponibles')
+                            ->placeholder('Escribe un cargo y presiona Enter')
+                            ->helperText('Aparecerán en la lista desplegable del formulario. Siempre se incluye la opción "Banco de hojas de vida". Elimina los cargos cuando la vacante se cierre.'),
+                    ])
+                    ->columns(1)
+                    ->columnSpanFull(),
+
                 // ── Fila 2: Admisiones (ancho completo) ──
                 Section::make('Admisiones (Página Principal)')
                     ->description('Textos globales de la campaña de admisiones, llamadas a la acción y pasos del proceso.')

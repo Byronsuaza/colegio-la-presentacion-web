@@ -8,6 +8,7 @@ use App\Http\Controllers\PaginaController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PqrsController;
 use App\Http\Controllers\PqrsAttachmentController;
+use App\Http\Controllers\PostulacionController;
 use App\Http\Controllers\PruebasDiagnosticasController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,14 @@ Route::post('/pqrs', [PqrsController::class, 'store'])
 Route::get('/pqrs/attachment/{submission}', [PqrsAttachmentController::class, 'show'])
     ->middleware('auth')
     ->name('pqrs.attachment');
+
+// Trabaja con Nosotros: postulación a vacantes
+Route::post('/postulaciones', [PostulacionController::class, 'store'])
+    ->middleware('throttle:5,10');
+
+Route::get('/postulaciones/{postulacion}/hoja-de-vida', [PostulacionController::class, 'hojaVida'])
+    ->middleware('auth')
+    ->name('postulaciones.hoja-vida');
 
 // Verificación de contraseña para pruebas diagnósticas (nunca expone la contraseña al frontend)
 Route::post('/api/pruebas-diagnosticas/verificar', [PruebasDiagnosticasController::class, 'verificar'])
