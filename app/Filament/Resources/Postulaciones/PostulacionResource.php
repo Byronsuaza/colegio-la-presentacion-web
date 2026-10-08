@@ -41,9 +41,17 @@ class PostulacionResource extends Resource
      */
     public static function getNavigationBadge(): ?string
     {
-        $nuevas = static::getModel()::where('estado', 'Nueva')->count();
+        try {
+            if (! \Illuminate\Support\Facades\Schema::hasTable('postulaciones')) {
+                return null;
+            }
 
-        return $nuevas > 0 ? (string) $nuevas : null;
+            $nuevas = static::getModel()::where('estado', 'Nueva')->count();
+
+            return $nuevas > 0 ? (string) $nuevas : null;
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     public static function getNavigationBadgeColor(): ?string
